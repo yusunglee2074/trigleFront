@@ -38,5 +38,9 @@
   "customer": {
     "dataSource": "trigle_test",
     "public": true
+  },
+  "trigle": {
+    "dataSource": "trigle_test",
+    "public": true
   }
 }
