@@ -1,0 +1,32 @@
+{
+  "name": "order",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "SoftDelete": true
+  },
+  "properties": {
+    "amount": {
+      "type": "number",
+      "default": 0
+    },
+    "refund_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "refund_date": {
+      "type": "date"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
