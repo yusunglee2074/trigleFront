@@ -42,5 +42,9 @@
   "trigle": {
     "dataSource": "trigle_test",
     "public": true
+  },
+  "post": {
+    "dataSource": "trigle_test",
+    "public": true
   }
 }
