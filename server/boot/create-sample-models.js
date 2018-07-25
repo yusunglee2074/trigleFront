@@ -1,4 +1,5 @@
 module.exports = function(app) {
+  // auto migrations
   app.dataSources.trigle_test.automigrate('customer', function(err) {
     if (err) throw err;
     app.models.customer.create([{
@@ -10,10 +11,17 @@ module.exports = function(app) {
       "password": "sjdmlrl4"
     }], function(err, customer) {
       if (err) throw err;
-      console.log('Models created: \n', customer);
+      console.log('Models created: \n');
     });
   });
   app.dataSources.trigle_test.automigrate('trigle', function(err) {
     if (err) throw err;
   })
+  app.dataSources.trigle_test.automigrate('post', function(err) {
+    if (err) throw err;
+  })
+  app.dataSources.trigle_test.automigrate('order', function(err) {
+    if (err) throw err;
+  })
+  
 };
