@@ -1,0 +1,37 @@
+{
+  "name": "post",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": true
+  },
+  "properties": {
+    "content": {
+      "type": "string"
+    },
+    "images": {
+      "type": [
+        "string"
+      ]
+    },
+    "sender_address": {
+      "type": "string"
+    },
+    "receiver_address": {
+      "type": "string"
+    },
+    "receiver_phone": {
+      "type": "string"
+    },
+    "receiver_name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
