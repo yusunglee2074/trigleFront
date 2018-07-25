@@ -34,5 +34,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "customer": {
+    "dataSource": "trigle_test",
+    "public": true
   }
 }

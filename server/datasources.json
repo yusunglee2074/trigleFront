@@ -2,5 +2,15 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "trigle_test": {
+    "host": "trigle-test.c1wovna2548b.ap-northeast-2.rds.amazonaws.com",
+    "port": 5432,
+    "url": "",
+    "database": "trigle_test",
+    "password": "andjtdlems1!",
+    "name": "trigle_test",
+    "user": "lys2074",
+    "connector": "postgresql"
   }
 }
