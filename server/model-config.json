@@ -9,6 +9,7 @@
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
+      "../node_modules/loopback-softdelete-mixin4",
       "../common/mixins",
       "./mixins"
     ]
@@ -44,6 +45,10 @@
     "public": true
   },
   "post": {
+    "dataSource": "trigle_test",
+    "public": true
+  },
+  "order": {
     "dataSource": "trigle_test",
     "public": true
   }
