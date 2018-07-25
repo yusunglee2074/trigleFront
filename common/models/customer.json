@@ -6,7 +6,8 @@
     "validateUpsert": true
   },
   "mixins": {
-    "TimeStamp": true
+    "TimeStamp": true,
+    "SoftDelete": true
   },
   "properties": {
     "id": {
