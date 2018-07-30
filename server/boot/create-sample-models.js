@@ -8,16 +8,22 @@ module.exports = function(app) {
       "point": 0,
       "username": "lys2074",
       "email": "lys0333@gmail.com",
-      "password": "sjdmlrl4"
+      "password": "i123"
     }], function(err, customer) {
       if (err) throw err;
       console.log('Models created: \n');
     });
   });
-  app.dataSources.trigle_test.automigrate('trigle', function(err) {
-    if (err) throw err;
-  })
   app.dataSources.trigle_test.automigrate('post', function(err) {
+    if (err) throw err;
+    app.models.post.create([{
+      customerId: 1,
+    }], (err, post) => {
+      if (err) throw err
+      console.log("post created")
+    })
+  })
+  app.dataSources.trigle_test.automigrate('trigle', function(err) {
     if (err) throw err;
   })
   app.dataSources.trigle_test.automigrate('order', function(err) {
