@@ -30,6 +30,9 @@
     "receiver_name": {
       "type": "string"
     },
+    "is_private": {
+      "type": "boolean"
+    },
     "video": {
       "type": "string"
     }
