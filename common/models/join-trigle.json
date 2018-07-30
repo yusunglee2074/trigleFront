@@ -1,0 +1,28 @@
+{
+  "name": "joinTrigle",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": true,
+    "SoftDelete": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "customer",
+      "foreignKey": "customerId"
+    },
+    "trigle": {
+      "type": "belongsTo",
+      "model": "trigle",
+      "foreignKey": "trigleId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
