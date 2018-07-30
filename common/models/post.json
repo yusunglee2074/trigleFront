@@ -29,6 +29,9 @@
     },
     "receiver_name": {
       "type": "string"
+    },
+    "video": {
+      "type": "string"
     }
   },
   "validations": [],
