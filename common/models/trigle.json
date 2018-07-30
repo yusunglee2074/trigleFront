@@ -18,7 +18,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "posts": {
+      "type": "hasMany",
+      "model": "post",
+      "foreignKey": "trigleId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
