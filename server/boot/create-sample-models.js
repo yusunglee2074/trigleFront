@@ -1,5 +1,8 @@
 module.exports = function(app) {
   // auto migrations
+  app.dataSources.trigle_test.automigrate('joinTrigle', function(err) {
+    if (err) throw err;
+  })
   app.dataSources.trigle_test.automigrate('customer', function(err) {
     if (err) throw err;
     app.models.customer.create([{
