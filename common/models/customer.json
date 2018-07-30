@@ -30,7 +30,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "posts": {
+      "type": "hasMany",
+      "model": "post",
+      "foreignKey": "customerId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
