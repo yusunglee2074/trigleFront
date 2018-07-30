@@ -35,6 +35,11 @@
       "type": "hasMany",
       "model": "post",
       "foreignKey": "customerId"
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "order",
+      "foreignKey": "customerId"
     }
   },
   "acls": [],
