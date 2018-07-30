@@ -23,6 +23,12 @@
       "type": "hasMany",
       "model": "post",
       "foreignKey": "trigleId"
+    },
+    "customers": {
+      "type": "hasMany",
+      "model": "customer",
+      "foreignKey": "trigleId",
+      "through": "joinTrigle"
     }
   },
   "acls": [],

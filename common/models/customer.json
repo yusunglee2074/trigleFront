@@ -40,6 +40,12 @@
       "type": "hasMany",
       "model": "order",
       "foreignKey": "customerId"
+    },
+    "joinTrigles": {
+      "type": "hasMany",
+      "model": "joinTrigle",
+      "foreignKey": "customerId",
+      "through": "joinTrigle"
     }
   },
   "acls": [],
