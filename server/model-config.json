@@ -51,5 +51,9 @@
   "order": {
     "dataSource": "trigle_test",
     "public": true
+  },
+  "joinTrigle": {
+    "dataSource": "trigle_test",
+    "public": true
   }
 }
