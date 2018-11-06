@@ -10,6 +10,11 @@ class AuthScreen extends Component {
     setTimeout(() => {
       SplashScreen.hide();
     }, 500)
+    AsyncStorage.getItem('user').then(user => {
+      if (user) {
+        this.props.navigation.navigate('main')
+      }
+    })
     super(props);
     this.state = {
       text: 'test'
@@ -17,12 +22,6 @@ class AuthScreen extends Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('user').then(user => {
-      if (user) {
-        // 유저가 있으며 메인 페이지로 쏨j
-
-      }
-    })
   }
   
   componentDidAppear() {
@@ -36,8 +35,6 @@ class AuthScreen extends Component {
     // 이메일, 비밀번호 서버콜치고 받은 엑세스 코드와 유저정보 acyncstroage에 저장
     AsyncStorage.setItem('user', '저장완료').then(() => {
       this.props.navigation.navigate('main')
-      // 그 후 메인페이지로 쏨
-      // Navigation.dismissAllModals();
     })
   }
 
