@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -10,6 +11,23 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  constructor(props) {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 500)
+    super(props);
+    this.state = {
+      text: 'test'
+    };
+  }
+
+  componentDidMount() {
+  }
+  
+  componentDidAppear() {
+    this.setState({ text: 'power' });
+  }
+
   render() {
     return (
       <View style={styles.container}>
