@@ -7,9 +7,18 @@ import SignUpScreen from './screens/SignUp';
 import AboutScreen from './screens/About';
 
 import Tab1MainScreen from './screens/Tab1Main/';
+
 import Tab2FindScreen  from './screens/Tab2Find/';
+
 import Tab3WriteScreen from './screens/Tab3Write/';
+import SelectPaperScreen from './screens/Tab3Write/SelectPaper';
+import WriteTextWebViewScreen from './screens/Tab3Write/WriteTextOnWebView';
+import SelectReceiverScreen from './screens/Tab3Write/SelectReceiver';
+import SelectEnvelopeScreen from './screens/Tab3Write/SelectEnvelope';
+import SelectMediaScreen from './screens/Tab3Write/SelectMedia';
+
 import Tab4MyInfoScreen from './screens/Tab4MyInfo/';
+
 
 const AuthStackNavigation = createStackNavigator({
   signUp: { screen: SignUpScreen, navigationOptions: { header: null } },
@@ -33,6 +42,11 @@ const FindScreenStackNavigation = createStackNavigator({
 
 const WriteScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab3WriteScreen, navigationOptions: { header: null } },
+  selectPaper: { screen: SelectPaperScreen, navigationOptions: { title: '편지지 선택' } },
+  write: { screen: WriteTextWebViewScreen, navigationOptions: { title: '본문 작성' } },
+  selectReceiver: { screen: SelectReceiverScreen, navigationOptions: { title: '받는이 선택' } },
+  selectEnvelope: { screen: SelectEnvelopeScreen, navigationOptions: { title: '편지봉투 선택' } },
+  selectMedia: { screen: SelectMediaScreen, navigationOptions: { title: '사진, 영상 추가' } },
 }, {
   initialRouteName: 'entry',
 })
