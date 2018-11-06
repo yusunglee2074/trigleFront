@@ -3,19 +3,26 @@ import {
   AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import { Navigation } from 'react-native-navigation';
 
 
 class AuthScreen extends Component {
   constructor(props) {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 500)
     super(props);
-    Navigation.events().bindComponent(this);
     this.state = {
       text: 'test'
     };
   }
 
   componentDidMount() {
+    AsyncStorage.getItem('user').then(user => {
+      if (user) {
+        // 유저가 있으며 메인 페이지로 쏨j
+
+      }
+    })
   }
   
   componentDidAppear() {
