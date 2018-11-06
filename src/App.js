@@ -6,10 +6,10 @@ import SignInScreen from './screens/SignIn';
 import SignUpScreen from './screens/SignUp';
 import AboutScreen from './screens/About';
 
-import Tab1MainScreen from './screens/Tab1Main';
-import Tab2FindScreen  from './screens/Tab2Find';
-import Tab3WriteScreen from './screens/Tab3Write';
-import Tab4MyInfoScreen from './screens/Tab4MyInfo';
+import Tab1MainScreen from './screens/Tab1Main/';
+import Tab2FindScreen  from './screens/Tab2Find/';
+import Tab3WriteScreen from './screens/Tab3Write/';
+import Tab4MyInfoScreen from './screens/Tab4MyInfo/';
 
 const AuthStackNavigation = createStackNavigator({
   signUp: { screen: SignUpScreen, navigationOptions: { header: null } },
