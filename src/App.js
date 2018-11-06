@@ -2,45 +2,52 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 
-import AuthScreen from './screens/Auth';
-import Tab1MainScreen from './screens/Tab1MainPage';
+import SignInScreen from './screens/SignIn';
+import SignUpScreen from './screens/SignUp';
+import AboutScreen from './screens/About';
+
+import Tab1MainScreen from './screens/Tab1Main';
+import Tab2FindScreen  from './screens/Tab2Find';
+import Tab3WriteScreen from './screens/Tab3Write';
+import Tab4MyInfoScreen from './screens/Tab4MyInfo';
 
 const AuthStackNavigation = createStackNavigator({
-  signIn: { screen: AuthScreen, navigationOptions: { header: null } },
-  signUp: { screen: Tab1MainScreen, navigationOptions: { title: '야호' } }
+  signUp: { screen: SignUpScreen, navigationOptions: { header: null } },
+  signIn: { screen: SignInScreen, navigationOptions: { title: '로그인' } },
+  about: { screen: AboutScreen, navigationOptions: { title: '트리글?' } }
 }, {
-  initialRouteName: 'signIn',
+  initialRouteName: 'signUp',
 });
 
 const MainScreenStackNavigation = createStackNavigator({
-  entry: { screen: AuthScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab1MainScreen, navigationOptions: { header: null } },
 }, {
   initialRouteName: 'entry',
 })
 
 const FindScreenStackNavigation = createStackNavigator({
-  entry: { screen: AuthScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab2FindScreen, navigationOptions: { header: null } },
 }, {
   initialRouteName: 'entry',
 })
 
 const WriteScreenStackNavigation = createStackNavigator({
-  entry: { screen: AuthScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab3WriteScreen, navigationOptions: { header: null } },
 }, {
   initialRouteName: 'entry',
 })
 
 const MyInfoStackNavigation = createStackNavigator({
-  entry: { screen: AuthScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab4MyInfoScreen, navigationOptions: { header: null } },
 }, {
   initialRouteName: 'entry',
 })
 
 const MainBottomNavigation = createBottomTabNavigator({
-  main: { screen: AuthScreen, navigationOptions: { header: null } },
-  find: { screen: AuthScreen, navigationOptions: { header: null } },
-  write: { screen: AuthScreen, navigationOptions: { header: null } },
-  myInfo: { screen: AuthScreen, navigationOptions: { header: null } },
+  main: MainScreenStackNavigation,
+  find: FindScreenStackNavigation,
+  write: WriteScreenStackNavigation,
+  myInfo: MyInfoStackNavigation 
 }, {
   initialRouteName: 'main',
 })
