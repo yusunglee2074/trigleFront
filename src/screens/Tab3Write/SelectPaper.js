@@ -20,9 +20,6 @@ class SelectPaper extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <WebView
-          source={require('../../static/WriteText.html')}
-        ></WebView>
       </SafeAreaView>
     );
   }
