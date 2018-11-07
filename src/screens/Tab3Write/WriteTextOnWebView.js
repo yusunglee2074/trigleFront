@@ -21,7 +21,7 @@ class WriteTextWebView extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <WebView
-          source={require('../../static/WriteText.html')}
+          source={require('../../static/writeText/WriteText.html')}
         ></WebView>
       </SafeAreaView>
     );
