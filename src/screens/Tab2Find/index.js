@@ -8,6 +8,10 @@ class AuthScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      age: null,
+      sex: null,
+      area: null,
+      keyword: []
     };
   }
 
@@ -24,9 +28,62 @@ class AuthScreen extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>필터공간(나이, 지역, 성별, 키워드)</Text>
-        <Text>회원 목록이 리스트로 ...</Text>
+        <Button title="나도 리스트에 공개"></Button>
+        <Filter></Filter>
+        <PeopleList></PeopleList>
       </SafeAreaView>
+    );
+  }
+}
+
+class Filter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  componentDidMount() {
+  }
+  
+  componentDidAppear() {
+    this.setState({ text: 'power' });
+  }
+
+  render () {
+    return (
+      <View>
+        <Button title="나이"></Button>
+        <Button title="성별"></Button>
+        <Button title="지역"></Button>
+      </View>
+    );
+  }
+}
+
+class PeopleList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  componentDidMount() {
+  }
+  
+  componentDidAppear() {
+    this.setState({ text: 'power' });
+  }
+
+  render () {
+    return (
+      <View>
+        <Text>닉네임</Text>
+        <Text>답장률</Text>
+        <Text>나이</Text>
+        <Text>키워드</Text>
+        <Text>지역</Text>
+      </View>
     );
   }
 }
