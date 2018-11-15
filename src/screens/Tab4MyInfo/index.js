@@ -24,7 +24,14 @@ class AuthScreen extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={{ fontSize: 30 }}>첫번째 탭입니다. 반가워요!</Text>
+        <Text>프로필 수정(무료우편)</Text>
+        <Text>통계</Text>
+        <Text>주소록</Text>
+        <Text>보낸 편지 내역</Text>
+        <Text>받은 편지 내역</Text>
+        <Text>문의하기(무료우편)</Text>
+        <Text>어떤 서비스인가요?</Text>
+        <Text>회원 탈퇴</Text>
       </SafeAreaView>
     );
   }

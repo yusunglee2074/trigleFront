@@ -24,7 +24,8 @@ class AuthScreen extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={{ fontSize: 30 }}>2번째 탭입니다. 반가워요!</Text>
+        <Text>필터공간(나이, 지역, 성별, 키워드)</Text>
+        <Text>회원 목록이 리스트로 ...</Text>
       </SafeAreaView>
     );
   }

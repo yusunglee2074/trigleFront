@@ -24,7 +24,9 @@ class AuthScreen extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={{ fontSize: 30 }}>첫번째 탭입니다. 반가워요!</Text>
+        <Text>편지 잘 받으셨나요? 답장하기 버튼(토스트 메세지느낌의)</Text>
+        <Text>익명 포스팅(누구든 답장해주세요) 아래꺼랑 섞어서</Text>
+        <Text>이건 어떻게 생각하세요?</Text>
       </SafeAreaView>
     );
   }
