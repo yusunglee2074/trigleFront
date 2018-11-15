@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { 
-  AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
+  TouchableOpacity, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 
 
@@ -18,22 +18,71 @@ class AuthScreen extends Component {
     this.setState({ text: 'power' });
   }
 
+  navigate = (to) => {
+    switch(to) {
+      case 'letterPaper':
+        this.props.navigation.navigate('selectPaper');
+        break;
+      case 'write':
+        this.props.navigation.navigate('write');
+        break;
+      case 'receiver':
+        this.props.navigation.navigate('selectReceiver');
+        break;
+      case 'envelope':
+        this.props.navigation.navigate('selectEnvelope');
+        break;
+      case 'media':
+        this.props.navigation.navigate('selectMedia');
+        break;
+    }
+  }
 
 
 
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>프로필 수정(무료우편)</Text>
-        <Text>통계</Text>
-        <Text>주소록</Text>
-        <Text>보낸 편지 내역</Text>
-        <Text>받은 편지 내역</Text>
-        <Text>문의하기(무료우편)</Text>
-        <Text>어떤 서비스인가요?</Text>
-        <Text>회원 탈퇴</Text>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="프로필"
+        ></ListItem>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="내 통계"
+        ></ListItem>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="주소록"
+        ></ListItem>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="보낸 편지"
+        ></ListItem>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="받은 편지"
+        ></ListItem>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="문의하기"
+        ></ListItem>
+        <ListItem
+          onPress={() => this.navigate('letterPaper')}
+          title="트리글은 어떤 목표를 갖고있나요?"
+        ></ListItem>
       </SafeAreaView>
     );
+  }
+}
+
+class ListItem extends Component {
+  render () {
+    return (
+      <TouchableOpacity onPress={this.props.onPress}>
+        <Text>{this.props.title}</Text>
+      </TouchableOpacity>
+    )
   }
 }
 

@@ -18,6 +18,13 @@ import SelectEnvelopeScreen from './screens/Tab3Write/SelectEnvelope';
 import SelectMediaScreen from './screens/Tab3Write/SelectMedia';
 
 import Tab4MyInfoScreen from './screens/Tab4MyInfo/';
+import ProfileScreen from './screens/Tab4MyInfo/Profile';
+import StatisticsScreen from './screens/Tab4MyInfo/Statistics';
+import AddressScreen from './screens/Tab4MyInfo/Address';
+import SendMailScreen from './screens/Tab4MyInfo/SendMail';
+import ReceiveMailScreen from './screens/Tab4MyInfo/ReceiveMail';
+import ContactScreen from './screens/Tab4MyInfo/Contact';
+import AboutTrigleScreen from './screens/Tab4MyInfo/AboutTrigle';
 
 
 const AuthStackNavigation = createStackNavigator({
@@ -53,6 +60,13 @@ const WriteScreenStackNavigation = createStackNavigator({
 
 const MyInfoStackNavigation = createStackNavigator({
   entry: { screen: Tab4MyInfoScreen, navigationOptions: { header: null } },
+  profile: { screen: ProfileScreen, navigationOptions: { title: '프로필' } },
+  statistics: { screen: StatisticsScreen, navigationOptions: { title: '내 통계' } },
+  address: { screen: AddressScreen, navigationOptions: { title: '주소록' } },
+  sendMail: { screen: SendMailScreen, navigationOptions: { title: '보낸 편지' } },
+  receiveMail: { screen: ReceiveMailScreen, navigationOptions: { title: '받은 편지' } },
+  contatct: { screen: ContactScreen, navigationOptions: { title: '문의하기' } },
+  aboutTrigle: { screen: AboutTrigleScreen, navigationOptions: { title: '트리글' } },
 }, {
   initialRouteName: 'entry',
 })
