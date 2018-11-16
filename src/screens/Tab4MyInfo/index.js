@@ -54,10 +54,6 @@ class AuthScreen extends Component {
           title="프로필"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('statistics')}
-          title="내 통계"
-        ></ListItem>
-        <ListItem
           onPress={() => this.navigate('address')}
           title="주소록"
         ></ListItem>
