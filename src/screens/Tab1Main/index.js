@@ -3,7 +3,6 @@ import {
   AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 
-
 class AuthScreen extends Component {
   constructor(props) {
     super(props);
@@ -17,9 +16,6 @@ class AuthScreen extends Component {
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
-
-
-
 
   render () {
     return (
