@@ -20,6 +20,11 @@ class Contact extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
+        <Text>자주묻는 질문</Text>
+        <Text>제목</Text>
+        <Text>내용</Text>
+        <Text>보내기</Text>
+        <Text>답변은 앱과 회원 아이디의 이메일로 전송됩니다.</Text>
       </SafeAreaView>
     );
   }
