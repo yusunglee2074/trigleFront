@@ -3,7 +3,7 @@ import {
   AsyncStorage, View, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
 
-class SelectPaper extends Component {
+class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectPaper;
+export default Address;

@@ -20,20 +20,26 @@ class AuthScreen extends Component {
 
   navigate = (to) => {
     switch(to) {
-      case 'letterPaper':
-        this.props.navigation.navigate('selectPaper');
+      case 'profile':
+        this.props.navigation.navigate('profile');
         break;
-      case 'write':
-        this.props.navigation.navigate('write');
+      case 'statistics':
+        this.props.navigation.navigate('statistics');
         break;
-      case 'receiver':
-        this.props.navigation.navigate('selectReceiver');
+      case 'address':
+        this.props.navigation.navigate('address');
         break;
-      case 'envelope':
-        this.props.navigation.navigate('selectEnvelope');
+      case 'sendMail':
+        this.props.navigation.navigate('sendMail');
         break;
-      case 'media':
-        this.props.navigation.navigate('selectMedia');
+      case 'receiveMail':
+        this.props.navigation.navigate('receiveMail');
+        break;
+      case 'contact':
+        this.props.navigation.navigate('contact');
+        break;
+      case 'aboutTrigle':
+        this.props.navigation.navigate('aboutTrigle');
         break;
     }
   }
@@ -44,31 +50,31 @@ class AuthScreen extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('profile')}
           title="프로필"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('statistics')}
           title="내 통계"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('address')}
           title="주소록"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('sendMail')}
           title="보낸 편지"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('receiveMail')}
           title="받은 편지"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('contact')}
           title="문의하기"
         ></ListItem>
         <ListItem
-          onPress={() => this.navigate('letterPaper')}
+          onPress={() => this.navigate('aboutTrigle')}
           title="트리글은 어떤 목표를 갖고있나요?"
         ></ListItem>
       </SafeAreaView>
