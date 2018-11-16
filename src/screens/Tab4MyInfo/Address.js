@@ -12,7 +12,24 @@ class Address extends Component {
     };
   }
 
+  static navigationOptions =  ({ navigation }) => {
+    return {
+      headerRight: (
+        <TouchableOpacity 
+          style={{ marginRight: 16 }} 
+          onPress={navigation.getParam('add')}>
+          <Text>추가</Text>
+        </TouchableOpacity>
+        )
+    }
+  }
+
+  _add = () => {
+    alert('ㅇㅎ')
+  }
+
   componentDidMount() {
+    this.props.navigation.setParams({ add: this._add });
   }
   
   componentDidAppear() {
