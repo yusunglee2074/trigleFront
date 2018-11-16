@@ -13,13 +13,13 @@ class SplitThreeBar extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <View style={{flex: 1, backgroundColor: 'powderblue'}} >
+        <View style={{flex: 1, backgroundColor: 'powderblue', justifyContent: 'center'}} >
           {this.props.left}
         </View>
-        <View style={{flex: 2, backgroundColor: 'skyblue'}} >
+        <View style={{flex: 2, backgroundColor: 'skyblue', justifyContent: 'center'}} >
           {this.props.center}
         </View>
-        <View style={{flex: 1, backgroundColor: 'steelblue'}} >
+        <View style={{flex: 2, backgroundColor: 'steelblue', justifyContent: 'center'}} >
           {this.props.right}
         </View>
       </View>
