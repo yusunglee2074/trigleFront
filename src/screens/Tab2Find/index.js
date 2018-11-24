@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { 
-  AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
+  TouchableOpacity, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 
 
@@ -15,48 +15,39 @@ class AuthScreen extends Component {
     };
   }
 
+  static navigationOptions =  ({ navigation }) => {
+    return {
+      headerRight: (
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity 
+            style={{ marginRight: 16, flex: 100 }} 
+            onPress={navigation.getParam('add')}>
+            <Text>필터</Text>
+          </TouchableOpacity>
+        </View>
+        )
+    }
+  }
+
+  _add = () => {
+    alert('ㅇㅎ')
+  }
+
   componentDidMount() {
+    this.props.navigation.setParams({ add: this._add });
   }
   
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
-
-
 
 
   render () {
     return (
       <SafeAreaView style={styles.container}>
         <Button title="나도 리스트에 공개"></Button>
-        <Filter></Filter>
         <PeopleList></PeopleList>
       </SafeAreaView>
-    );
-  }
-}
-
-class Filter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  componentDidMount() {
-  }
-  
-  componentDidAppear() {
-    this.setState({ text: 'power' });
-  }
-
-  render () {
-    return (
-      <View>
-        <Button title="나이"></Button>
-        <Button title="성별"></Button>
-        <Button title="지역"></Button>
-      </View>
     );
   }
 }
