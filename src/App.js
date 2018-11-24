@@ -42,7 +42,7 @@ const MainScreenStackNavigation = createStackNavigator({
 })
 
 const FindScreenStackNavigation = createStackNavigator({
-  entry: { screen: Tab2FindScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab2FindScreen, navigationOptions: { title: '친구 찾기' } },
 }, {
   initialRouteName: 'entry',
 })
