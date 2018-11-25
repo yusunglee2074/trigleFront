@@ -48,7 +48,7 @@ const FindScreenStackNavigation = createStackNavigator({
 })
 
 const WriteScreenStackNavigation = createStackNavigator({
-  entry: { screen: Tab3WriteScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab3WriteScreen, navigationOptions: { title: '편지 쓰기' } },
   selectPaper: { screen: SelectPaperScreen, navigationOptions: { title: '편지지 선택' } },
   write: { screen: WriteTextWebViewScreen, navigationOptions: { title: '본문 작성' } },
   selectReceiver: { screen: SelectReceiverScreen, navigationOptions: { title: '받는이 선택' } },
