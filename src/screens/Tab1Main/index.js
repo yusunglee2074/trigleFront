@@ -75,12 +75,11 @@ class AuthScreen extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <View>
-          <Text
-          style={{ margin: 20, fontSize: 20}}>여러분 우리같이 힘내요! - 푸른기사#12</Text>
         </View>
         <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
           data={this.state.data}
+          keyExtractor={(item, index) => item.title }
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
