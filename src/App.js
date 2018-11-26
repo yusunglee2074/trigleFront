@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+import { TabBarBottom, createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+import { Icon } from 'react-native-elements'
 
 import SignInScreen from './screens/SignIn';
 import SignUpScreen from './screens/SignUp';
@@ -59,7 +60,7 @@ const WriteScreenStackNavigation = createStackNavigator({
 })
 
 const MyInfoStackNavigation = createStackNavigator({
-  entry: { screen: Tab4MyInfoScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab4MyInfoScreen, navigationOptions: { title: '내 정보' } },
   profile: { screen: ProfileScreen, navigationOptions: { title: '프로필' } },
   statistics: { screen: StatisticsScreen, navigationOptions: { title: '내 통계' } },
   address: { screen: AddressScreen, navigationOptions: { title: '주소록' } },
@@ -78,6 +79,30 @@ const MainBottomNavigation = createBottomTabNavigator({
   myInfo: MyInfoStackNavigation 
 }, {
   initialRouteName: 'main',
+  tabBarOptions: {
+    activeTintColor: 'black',
+    inactiveTintColor: 'gray',
+    showLabel: false
+  },
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      const { routeName } = navigation.state;
+      let iconName;
+      if (routeName === 'main') {
+        iconName = `heart`;
+      } else if (routeName === 'find') {
+        iconName = `user-follow`;
+      } else if (routeName === 'write') {
+        iconName = `pencil`;
+      } else if (routeName === 'myInfo') {
+        iconName = `menu`;
+      }
+
+      // You can return any component that you like here! We usually use an
+      // icon component from react-native-vector-icons
+      return <Icon name={iconName} type='simple-line-icon' size={horizontal ? 25 : 30} color={tintColor} />;
+    }
+  })
 })
 
 export default createSwitchNavigator({
