@@ -36,7 +36,7 @@ const AuthStackNavigation = createStackNavigator({
 });
 
 const MainScreenStackNavigation = createStackNavigator({
-  entry: { screen: Tab1MainScreen, navigationOptions: { header: null } },
+  entry: { screen: Tab1MainScreen, navigationOptions: { title: '트리글' } },
 }, {
   initialRouteName: 'entry',
 })
