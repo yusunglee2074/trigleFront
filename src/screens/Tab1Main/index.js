@@ -6,31 +6,37 @@ import { Card, Icon } from 'react-native-elements';
 
 const data = [
   {
+    id: 1,
     content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
     sender: '볶음김치#123',
     date: JSON.stringify(new Date())
   },
   {
+    id: 2,
     content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
     sender: '볶음김치#123',
     date: JSON.stringify(new Date())
   },
   {
+    id: 3,
     content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
     sender: '볶음김치#123',
     date: JSON.stringify(new Date())
   },
   {
+    id: 4,
     content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
     sender: '볶음김치#123',
     date: JSON.stringify(new Date())
   },
   {
+    id: 5,
     content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
     sender: '볶음김치#123',
     date: JSON.stringify(new Date())
   },
   {
+    id: 6,
     content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
     sender: '볶음김치#123',
     date: JSON.stringify(new Date())
@@ -79,7 +85,7 @@ class AuthScreen extends Component {
         <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
           data={this.state.data}
-          keyExtractor={(item, index) => item.title }
+          keyExtractor={(item, index) => item.id}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
