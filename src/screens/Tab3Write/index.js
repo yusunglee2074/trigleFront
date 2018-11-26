@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
   AsyncStorage, View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity
 } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon, Divider } from 'react-native-elements'
 
 class Tab3Write extends Component {
   constructor(props) {
@@ -15,21 +15,21 @@ class Tab3Write extends Component {
     return {
       headerRight: (
         <View style={{ flexDirection: 'row' }}>
-    <Icon
-      name='send-o'
-      type='font-awesome'
-      color='#f50'
-      onPress={navigation.getParam('add')} />
-    <Icon
-      name='mail-read'
-      type='octicon'
-      color='#f50'
-      onPress={navigation.getParam('add')} />
-    <Icon
-      name='paperclip'
-      type='font-awesome'
-      color='#f50'
-      onPress={navigation.getParam('add')} />
+          <Icon
+            name='send-o'
+            type='font-awesome'
+            color='#f50'
+            onPress={navigation.getParam('add')} />
+          <Icon
+            name='mail-read'
+            type='octicon'
+            color='#f50'
+            onPress={navigation.getParam('add')} />
+          <Icon
+            name='paperclip'
+            type='font-awesome'
+            color='#f50'
+            onPress={navigation.getParam('add')} />
         </View>
         )
     }
@@ -77,36 +77,38 @@ class Tab3Write extends Component {
 
         <View>
           <View 
-            style={{flexDirection: 'row', alignItems:'center', paddingLeft: 10}}>
+            style={styles.inputForm}>
             <Text
-              style={{flex: 0.2}}
+              style={styles.label}
             >보낸사람</Text>
             <TextInput
-              style={{flex: 0.8}}
+              style={styles.textInput}
               onChangeText={(text) => this.setState({ text })}
               placeholder="보낸사람"
             ></TextInput>
           </View>
+          <View style={styles.divider}/>
           <View 
-            style={{flexDirection: 'row', alignItems:'center', paddingLeft: 10}}>
+            style={styles.inputForm}>
             <Text
-              style={{flex: 0.2}}
+              style={styles.label}
             >받는사람</Text>
             <TextInput
-              style={{flex: 0.8}}
+              style={styles.textInput}
               onChangeText={(text) => this.setState({ text })}
-              placeholder="받는사람"
             ></TextInput>
           </View>
+          <View style={styles.divider}/>
         </View>
-        <View>
-          <View>
+        <View style={{ flex: 1}}>
+          <View style={{ flex: 1, justifyContent: 'flex-start', marginLeft: 10, marginTop:10 }}>
             <TextInput
-              style={{ width: 200 }}
+              style={{ fontSize: 16 }}
               value={this.state.value}
               onChangeText={text=>this.setState({value:text})}
               multiline={true}
               underlineColorAndroid='transparent'
+              placeholder='내용 작성'
             />
           </View>
         </View>
@@ -185,7 +187,17 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     marginBottom: 10,
     backgroundColor: '#f47a42'
-  }
+  },
+  inputForm: { height: 50, flexDirection: 'row', alignItems:'center', paddingLeft: 10},
+  label: {
+    flex: 0.17,
+    fontSize: 16
+  },
+  textInput: {
+    flex: 0.83,
+    fontSize: 16
+  },
+  divider: { borderBottomColor: '#cccccc', borderBottomWidth: 1 }
 });
 
 export default Tab3Write;
