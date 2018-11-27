@@ -1,30 +1,60 @@
 import React, { Component } from 'react';
 import { 
-  TouchableOpacity, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
+  FlatList, AsyncStorage, View, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
+import { Icon, SearchBar, Avatar } from 'react-native-elements';
 
+import SplitTwoBar from './../Component/SplitTwoBar';
 
-class AuthScreen extends Component {
+const data = [
+  {
+    id: 1,
+    nickname: '하늘이#13',
+    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    commonTopic: 3,
+  },
+  {
+    id: 2,
+    nickname: '하늘이#13',
+    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    commonTopic: 3,
+  },
+  {
+    id: 3,
+    nickname: '하늘이#13',
+    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    commonTopic: 3,
+  },
+  {
+    id: 4,
+    nickname: '하늘이#13',
+    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    commonTopic: 3,
+  },
+  {
+    id: 5,
+    nickname: '하늘이#13',
+    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    commonTopic: 3,
+  },
+];
+
+class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      age: null,
-      sex: null,
-      area: null,
-      keyword: []
+      data: data
     };
   }
 
   static navigationOptions =  ({ navigation }) => {
     return {
       headerRight: (
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity 
-            style={{ marginRight: 16, flex: 100 }} 
-            onPress={navigation.getParam('add')}>
-            <Text>필터</Text>
-          </TouchableOpacity>
-        </View>
+        <Icon
+          name='plus'
+          type='simple-line-icon'
+          color='#000000'
+          onPress={navigation.getParam('add')} />
         )
     }
   }
@@ -41,53 +71,69 @@ class AuthScreen extends Component {
     this.setState({ text: 'power' });
   }
 
+  navigate = (to) => {
+    switch(to) {
+      case 'profileDetail':
+        this.props.navigation.navigate('profileDetail');
+        break;
+    }
+  }
 
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Button title="나도 리스트에 공개"></Button>
-        <PeopleList></PeopleList>
+        <FlatList
+          style={{ flex:1, marginHorizontal: 10 }}
+          data={this.state.data}
+          keyExtractor={(item, index) => item.id}
+          renderItem={({ item, index }) => {
+            return (
+                <TouchableOpacity
+                  onPress={() => this.navigate('profileDetail')}
+                  style={{ 
+                    borderWidth: 2,
+                    borderRadius: 2,
+                    borderColor: '#969696',
+                    height: 170,
+                    flex: 1,
+                    alignItems: 'center',
+                    paddingTop: 15,
+                    margin: 10,
+                    // ios
+                    backgroundColor: '#fffef9',
+                    shadowOffset: {width: 0, height: 13}, 
+                    shadowOpacity: 0.3,
+                    shadowRadius: 6,
+
+                    // android (Android +5.0)
+                    elevation: 3,
+                  }}>
+                  <Avatar
+                    size="large"
+                    source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+                    containerStyle={{ borderWidth: 2, borderColor: 'tomato' }}
+                    onPress={() => console.log("Works!")}
+                    activeOpacity={0.7}
+                  />
+                  <Text>{item.nickname}</Text>
+                  <Text>#주부, #짜장면, #오버워치</Text>
+                  <View style={styles.divider}/>
+                  <Text>공통 키워드 4</Text>
+                </TouchableOpacity>
+            );
+          }}
+          numColumns= {2}
+        />
       </SafeAreaView>
     );
   }
 }
 
-class PeopleList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  componentDidMount() {
-  }
-  
-  componentDidAppear() {
-    this.setState({ text: 'power' });
-  }
-
-  render () {
-    return (
-      <View>
-        <Text>닉네임</Text>
-        <Text>답장률</Text>
-        <Text>나이</Text>
-        <Text>키워드</Text>
-        <Text>지역</Text>
-      </View>
-    );
-  }
-}
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
-    flex: 1,
-    backgroundColor: '#33373B',
-  },
+  divider: { width: '85%', margin: 4, borderBottomColor: 'red', borderBottomWidth: 1 }
 });
 
-export default AuthScreen;
+export default Address;
