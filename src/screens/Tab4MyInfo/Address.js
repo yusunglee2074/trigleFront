@@ -71,6 +71,14 @@ class Address extends Component {
     this.setState({ text: 'power' });
   }
 
+  navigate = (to) => {
+    switch(to) {
+      case 'profileDetail':
+        this.props.navigation.navigate('profileDetail');
+        break;
+    }
+  }
+
   render () {
     let tempList = [{name: '성유#12', address1: '경기도 수원시 우만동', address2: '세지로 420 301호'}, {name: '김철수', address1: '전라남도 목포시 용해동', address2: '동아아파트 301호'}]
     return (
@@ -88,6 +96,7 @@ class Address extends Component {
           renderItem={({ item, index }) => {
             return (
                 <TouchableOpacity
+                  onPress={() => this.navigate('profileDetail')}
                   style={{ 
                     borderWidth: 2,
                     borderRadius: 2,
