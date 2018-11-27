@@ -37,11 +37,11 @@ class ProfileDetail extends Component {
       }
     }
   }
-  
+
   componentDidMount() {
     this.props.navigation.setParams({ title: this.state.user.nickname});
   }
-  
+
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
@@ -72,6 +72,63 @@ class ProfileDetail extends Component {
             <View style={styles.divider}/>
             <View>
               <Text>관심 키워드</Text>
+              <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
+                <Button
+                  title="#나는 배고프다"
+                  titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
+                  buttonStyle={{
+                    height: 30,
+                    backgroundColor: "transparent",
+                    borderColor: "rgba(92, 99,216, 1)",
+                    alignSelf: 'flex-start',
+                    borderWidth: 2,
+                    borderRadius: 5
+                  }}
+                  containerStyle={{ marginTop: 10, marginRight: 5 }}
+                />
+                <Button
+                  title="#영화"
+                  titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
+                  buttonStyle={{
+                    height: 30,
+                    backgroundColor: "transparent",
+                    borderColor: "rgba(92, 99,216, 1)",
+                    alignSelf: 'flex-start',
+                    borderWidth: 2,
+                    borderRadius: 5
+                  }}
+                  containerStyle={{ marginTop: 10, marginRight: 5 }}
+                />
+                <Button
+                  title="#나는 다이어트가 하고싶다"
+                  titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
+                  buttonStyle={{
+                    height: 30,
+                    backgroundColor: "transparent",
+                    borderColor: "rgba(92, 99,216, 1)",
+                    alignSelf: 'flex-start',
+                    borderWidth: 2,
+                    borderRadius: 5
+                  }}
+                  containerStyle={{ marginTop: 10, marginRight: 5 }}
+                />
+                <Button
+                  title="#영화"
+                  titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
+                  buttonStyle={{
+                    height: 30,
+                    backgroundColor: "transparent",
+                    borderColor: "rgba(92, 99,216, 1)",
+                    alignSelf: 'flex-start',
+                    borderWidth: 2,
+                    borderRadius: 5
+                  }}
+                  containerStyle={{ marginTop: 10, marginRight: 5 }}
+                />
+              </View>
+            </View>
+            <View style={{ marginTop: 30 }}>
+              <Text>개인 키워드</Text>
               <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
                 <Button
                   title="#나는 배고프다"
