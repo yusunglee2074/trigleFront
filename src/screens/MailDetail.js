@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: 'grey',
     padding: 20,
-    margin: 8,
+    margin: 25,
     flex: 1,
   },
   receiver: {
