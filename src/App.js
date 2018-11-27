@@ -41,7 +41,7 @@ const AuthStackNavigation = createStackNavigator({
 
 const MainScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab1MainScreen, navigationOptions: { title: '트리글' } },
-  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
+  profileDetail: { screen: ProfileDetailScreen },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
   initialRouteName: 'entry',

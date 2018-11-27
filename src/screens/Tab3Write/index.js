@@ -74,7 +74,6 @@ class Tab3Write extends Component {
   render () {
     return (
       <SafeAreaView style={styles.container}>
-
         <View>
           <View 
             style={styles.inputForm}>
