@@ -8,6 +8,7 @@ import SignUpScreen from './screens/SignUp';
 import AboutScreen from './screens/About';
 
 import ProfileDetailScreen from './screens/ProfileDetail';
+import MailDetailScreen from './screens/MailDetail';
 
 import Tab1MainScreen from './screens/Tab1Main/';
 
@@ -40,14 +41,16 @@ const AuthStackNavigation = createStackNavigator({
 
 const MainScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab1MainScreen, navigationOptions: { title: '트리글' } },
-  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '' } },
+  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
+  mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
   initialRouteName: 'entry',
 })
 
 const FindScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab2FindScreen, navigationOptions: { title: '친구 찾기' } },
-  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '' } },
+  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
+  mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
   initialRouteName: 'entry',
 })
@@ -59,7 +62,8 @@ const WriteScreenStackNavigation = createStackNavigator({
   selectReceiver: { screen: SelectReceiverScreen, navigationOptions: { title: '받는이 선택' } },
   selectEnvelope: { screen: SelectEnvelopeScreen, navigationOptions: { title: '편지봉투 선택' } },
   selectMedia: { screen: SelectMediaScreen, navigationOptions: { title: '사진, 영상 추가' } },
-  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '' } },
+  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
+  mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
   initialRouteName: 'entry',
 })
@@ -73,7 +77,8 @@ const MyInfoStackNavigation = createStackNavigator({
   receiveMail: { screen: ReceiveMailScreen, navigationOptions: { title: '받은 편지' } },
   contact: { screen: ContactScreen, navigationOptions: { title: '문의하기' } },
   aboutTrigle: { screen: AboutTrigleScreen, navigationOptions: { title: '트리글' } },
-  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '' } },
+  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
+  mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
   initialRouteName: 'entry',
 })

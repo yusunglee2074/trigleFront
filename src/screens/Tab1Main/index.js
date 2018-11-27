@@ -77,6 +77,14 @@ class AuthScreen extends Component {
     this.setState({ text: 'power' });
   }
 
+  navigate = (to) => {
+    switch(to) {
+      case 'mailDetail':
+        this.props.navigation.navigate('mailDetail');
+        break;
+    }
+  }
+
   render () {
     return (
       <SafeAreaView style={styles.container}>
@@ -89,6 +97,7 @@ class AuthScreen extends Component {
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
+                onPress={() => this.navigate('mailDetail')}
                 style={{ 
                   borderWidth: 2,
                   borderRadius: 2,
