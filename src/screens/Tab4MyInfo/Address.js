@@ -123,7 +123,7 @@ class Address extends Component {
                     activeOpacity={0.7}
                   />
                   <Text>{item.nickname}</Text>
-                  <Text>20대</Text>
+                  <Text>#주부, #짜장면, #오버워치</Text>
                   <View style={styles.divider}/>
                   <Text>공통 키워드 4</Text>
                 </TouchableOpacity>
