@@ -1,8 +1,60 @@
 import React, { Component } from 'react';
 import { 
-  TouchableOpacity, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
+  ScrollView, TouchableOpacity, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
+import { List, ListItem } from 'react-native-elements'
 
+const list = [
+  {
+    navigation: 'statistics',
+    title: '공지사항',
+    icon: 'newspaper-o',
+    iconType: 'font-awesome',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }, {
+    navigation: 'profile',
+    title: '내 프로필',
+    icon: 'person',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }, {
+    navigation: 'address',
+    title: '주소록',
+    icon: 'address-book-o',
+    iconType: 'font-awesome',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }, {
+    navigation: 'sendMail',
+    title: '보낸 편지',
+    icon: 'paper-plane-o',
+    iconType: 'font-awesome',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }, {
+    navigation: 'receiveMail',
+    title: '받은 편지',
+    icon: 'mail-read',
+    iconType: 'octicon',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }, {
+    navigation: 'contact',
+    title: '자주 묻는 질문',
+    icon: 'question',
+    iconType: 'simple-line-icon',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }, {
+    navigation: 'aboutTrigle',
+    title: '회원탈퇴',
+    icon: 'trash',
+    iconType: 'simple-line-icon',
+    rightIcon: 'arrow-right',
+    rightIconType: 'simple-line-icon'
+  }
+]
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -44,49 +96,46 @@ class AuthScreen extends Component {
     }
   }
 
-
-
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <ListItem
-          onPress={() => this.navigate('profile')}
-          title="프로필"
-        ></ListItem>
-        <ListItem
-          onPress={() => this.navigate('address')}
-          title="주소록"
-        ></ListItem>
-        <ListItem
-          onPress={() => this.navigate('sendMail')}
-          title="보낸 편지"
-        ></ListItem>
-        <ListItem
-          onPress={() => this.navigate('receiveMail')}
-          title="받은 편지"
-        ></ListItem>
-        <ListItem
-          onPress={() => this.navigate('contact')}
-          title="문의하기"
-        ></ListItem>
-        <ListItem
-          onPress={() => this.navigate('aboutTrigle')}
-          title="트리글은 어떤 목표를 갖고있나요?"
-        ></ListItem>
+        <ScrollView>
+          {
+            list.map((item, i) => { 
+              let a = (
+                <TouchableOpacity
+                  onPress={() => {this.navigate(`${item.navigation}`)}}
+                >
+                  <ListItem
+                    key={item}
+                    title={item.title}
+                    leftIcon={{ name: item.icon, type: item.iconType }}
+                    rightIcon={{ name: item.rightIcon, type: item.rightIconType }}
+                  />
+                </TouchableOpacity>
+              )
+              switch (item.title) {
+                case '내 프로필':
+                  return <View><View style={{ height: 20 }}></View>{a}</View>
+                    break;
+                case '보낸 편지':
+                  return <View><View style={{ height: 20 }}></View>{a}</View>
+                    break;
+                case '자주 묻는 질문':
+                  return <View><View style={{ height: 20 }}></View>{a}</View>
+                    break;
+                default:
+                  return a
+                  break;
+              }
+            })
+          }
+        </ScrollView>
       </SafeAreaView>
     );
   }
 }
 
-class ListItem extends Component {
-  render () {
-    return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <Text>{this.props.title}</Text>
-      </TouchableOpacity>
-    )
-  }
-}
 
 
 const styles = StyleSheet.create({
