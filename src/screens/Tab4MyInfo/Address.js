@@ -123,9 +123,9 @@ class Address extends Component {
                     activeOpacity={0.7}
                   />
                   <Text>{item.nickname}</Text>
-                  <Text>#주부, #짜장면, #오버워치</Text>
+                  <Text>서울특별시</Text>
                   <View style={styles.divider}/>
-                  <Text>공통 키워드 4</Text>
+                  <Text>주고받은 횟수 4</Text>
                 </TouchableOpacity>
             );
           }}
