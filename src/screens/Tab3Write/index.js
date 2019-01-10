@@ -8,6 +8,7 @@ class Tab3Write extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      child: '',
     };
   }
 
@@ -19,12 +20,7 @@ class Tab3Write extends Component {
             name='send-o'
             type='font-awesome'
             color='#f50'
-            onPress={navigation.getParam('add')} />
-          <Icon
-            name='mail-read'
-            type='octicon'
-            color='#f50'
-            onPress={navigation.getParam('add')} />
+            onPress={navigation.getParam('post')} />
           <Icon
             name='paperclip'
             type='font-awesome'
@@ -39,16 +35,24 @@ class Tab3Write extends Component {
     alert('ㅇㅎ')
   }
 
+  _post = () => {
+    alert('보낸다 정말')
+  }
+
   componentDidMount() {
     this.props.navigation.setParams({ add: this._add });
+    this.props.navigation.setParams({ post: this._post });
   }
   
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
 
-  postMail = () => {
-    alert("보내기버리")
+  addReceiver = () => {
+    function getData(data) {
+      this.setState({ child: data }, () => console.log(this.state))
+    }
+    this.props.navigation.navigate('selectReceiver', {getData: getData.bind(this)});
   }
 
   navigate = (to) => {
@@ -87,16 +91,17 @@ class Tab3Write extends Component {
             ></TextInput>
           </View>
           <View style={styles.divider}/>
-          <View 
-            style={styles.inputForm}>
+          <TouchableOpacity 
+            style={styles.inputForm}
+            onPress={this.addReceiver}
+          >
             <Text
               style={styles.label}
             >받는사람</Text>
-            <TextInput
+            <Text
               style={styles.textInput}
-              onChangeText={(text) => this.setState({ text })}
-            ></TextInput>
-          </View>
+            ></Text>
+          </TouchableOpacity>
           <View style={styles.divider}/>
         </View>
         <View style={{ flex: 1}}>
