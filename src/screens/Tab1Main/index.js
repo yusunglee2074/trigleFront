@@ -3,6 +3,15 @@ import {
   TouchableOpacity, FlatList, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
+import axios from 'axios';
+
+axios.get('http://10.0.2.2:3000/graphql?query={users{id}}')
+  .then(r => {
+    console.log(r);
+  })
+  .catch(e => {
+    console.log(e);
+  });
 
 const data = [
   {
