@@ -1,45 +1,72 @@
 import React, { Component } from 'react';
 import { 
-  AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
+  Alert, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import axios from 'axios';
 
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Accept'] = 'application/json'
 
 class AuthScreen extends Component {
   constructor(props) {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 500)
-    AsyncStorage.getItem('user').then(user => {
-      if (user) {
-        this.props.navigation.navigate('main')
-      }
-    })
     super(props);
     this.state = {
-      text: 'test'
+      email: '',
+      password: '',
     };
   }
 
   componentDidMount() {
+    AsyncStorage.getItem('user').then(user => {
+      setTimeout(() => SplashScreen.hide(), 500);
+      if (user) this.props.navigation.navigate('main');
+    });
   }
   
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
 
-
-
-
-  signUpClick = () => {
-    // 이메일, 비밀번호 서버콜치고 받은 엑세스 코드와 유저정보 acyncstroage에 저장
-    AsyncStorage.setItem('user', '저장완료').then(() => {
-      this.props.navigation.navigate('main')
-    })
+  signUpClick = async () => {
+    // checkEmail and password
+    let regEmailCheker = /\S+@\S+\.\S+/;
+    if (regEmailCheker.test(this.state.email)) {
+      if (this.state.password.length < 4) Alert.alert('오류', '패스워드는 4자리 이상이여야 합니다.');
+      else {
+        const self = this;
+        axios.post(`http://10.0.2.2:3000/graphql`, {query : 
+          `mutation {
+            createUser(email: "${this.state.email}", password: "${this.state.password}") {
+              id
+              email
+              accessToken
+            }}`
+        })
+          .then(r => {
+            if (!r.data.errors) {
+              return AsyncStorage.setItem('user', JSON.stringify(r.data.data.createUser))
+            } else if(r.data.errors[0].message === "email already exist") {
+              Alert.alert('오류', '이미 가입된 이메일이 존재합니다.')
+            } else {
+              Alert.alert('치명 오류', '고객센터에 문의하십시오.');
+            }
+          })
+          .then(() => {
+            return AsyncStorage.getItem('user')
+          })
+          .then(item => {
+            self.props.navigation.navigate('main')
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
+    } else Alert.alert('오류', '이메일 형식을 확인하세요');
   }
 
   signInClick = () => {
-      this.props.navigation.navigate('signIn')
+    this.props.navigation.navigate('signIn')
   }
 
   aboutServiceClick = () => {
@@ -51,8 +78,8 @@ class AuthScreen extends Component {
       <SafeAreaView style={styles.container}>
         <Text>TRIPLE(로고)</Text>
         <Button title="어떤 서비스인가요?" onPress={this.aboutServiceClick}></Button>
-        <TextInput placeholder="이메일"></TextInput>
-        <TextInput placeholder="패스워드"></TextInput>
+        <TextInput onChangeText={(email) => this.setState({ email })} name="email" placeholder="이메일" textContentType="username"></TextInput>
+        <TextInput onChangeText={(password) => this.setState({ password})} name="password" placeholder="패스워드" textContentType="password" secureTextEntry></TextInput>
         <Button title="회원가입" onPress={this.signUpClick}></Button>
         <View
           style={{
