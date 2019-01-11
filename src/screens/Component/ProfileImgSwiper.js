@@ -42,6 +42,8 @@ export default class SwiperComp extends Component {
         style={styles.wrapper} 
         showsButtons={true}
         showsPagination={false}
+        onIndexChanged={this.props.onIndexChanged}
+        loop={false}
       >
         <Image style={styles.slide1} source={require('./../../static/avatars/users-1.png')}>
         </Image>
