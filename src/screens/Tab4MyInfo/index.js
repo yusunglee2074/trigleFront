@@ -105,9 +105,9 @@ class AuthScreen extends Component {
               let a = (
                 <TouchableOpacity
                   onPress={() => {this.navigate(`${item.navigation}`)}}
+                  key={i}
                 >
                   <ListItem
-                    key={item}
                     title={item.title}
                     leftIcon={{ name: item.icon, type: item.iconType }}
                     rightIcon={{ name: item.rightIcon, type: item.rightIconType }}
@@ -116,13 +116,13 @@ class AuthScreen extends Component {
               )
               switch (item.title) {
                 case '내 프로필':
-                  return <View><View style={{ height: 20 }}></View>{a}</View>
+                  return <View key={i}><View style={{ height: 20 }}></View>{a}</View>
                     break;
                 case '보낸 편지':
-                  return <View><View style={{ height: 20 }}></View>{a}</View>
+                  return <View key={i}><View style={{ height: 20 }}></View>{a}</View>
                     break;
                 case '자주 묻는 질문':
-                  return <View><View style={{ height: 20 }}></View>{a}</View>
+                  return <View key={i}><View style={{ height: 20 }}></View>{a}</View>
                     break;
                 default:
                   return a
