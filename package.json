@@ -11,7 +11,7 @@
     "bcryptjs": "^2.4.3",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.4",
-    "react-native-elements": "^0.19.1",
+    "react-native-elements": "^1.0.0-beta7",
     "react-native-splash-screen": "^3.1.1",
     "react-native-swiper": "^1.5.14",
     "react-native-vector-icons": "^6.1.0",
