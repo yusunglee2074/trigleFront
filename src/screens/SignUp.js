@@ -25,8 +25,9 @@ class AuthScreen extends Component {
 
   componentDidMount() {
     AsyncStorage.getItem('user').then(user => {
+      user = JSON.parse(user);
       setTimeout(() => SplashScreen.hide(), 500);
-      //if (user) this.props.navigation.navigate('main');
+      if (user.accessToken) this.props.navigation.navigate('main');
     });
   }
   
