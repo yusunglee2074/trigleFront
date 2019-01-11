@@ -13,6 +13,7 @@ import MailDetailScreen from './screens/MailDetail';
 import Tab1MainScreen from './screens/Tab1Main/';
 
 import Tab2FindScreen  from './screens/Tab2Find/';
+import SetKeywordScreen from './screens/Tab2Find/setKeyword';
 
 import Tab3WriteScreen from './screens/Tab3Write/';
 import SelectPaperScreen from './screens/Tab3Write/SelectPaper';
@@ -49,6 +50,7 @@ const MainScreenStackNavigation = createStackNavigator({
 
 const FindScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab2FindScreen, navigationOptions: { title: '친구 찾기' } },
+  setKeyword: { screen: SetKeywordScreen, navigationOptions: { title: '키워드 설정' } },
   profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
