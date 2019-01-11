@@ -50,9 +50,9 @@ class Tab3Write extends Component {
 
   addReceiver = () => {
     function getData(data) {
-      this.setState({ child: data }, () => console.log(this.state))
+      this.setState({ child: data })
     }
-    this.props.navigation.navigate('selectReceiver', {getData: getData.bind(this)});
+    this.props.navigation.navigate('selectReceiver', { getData: getData.bind(this) });
   }
 
   navigate = (to) => {
