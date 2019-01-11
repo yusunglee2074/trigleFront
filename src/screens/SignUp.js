@@ -3,15 +3,8 @@ import {
   Alert, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import axios from 'axios';
 import ProfileImgSwiper from './Component/ProfileImgSwiper';
-
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.headers.post['Accept'] = 'application/json'
-
-const apiUrl = Platform.OS === 'ios' ? "http://localhost:3000/graphql" : "http://10.0.2.2:3000/graphql";
-
-
+import api from './../api';
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -27,7 +20,7 @@ class AuthScreen extends Component {
     AsyncStorage.getItem('user').then(user => {
       user = JSON.parse(user);
       setTimeout(() => SplashScreen.hide(), 500);
-      if (user.accessToken) this.props.navigation.navigate('main');
+      if (user) this.props.navigation.navigate('main');
     });
   }
   
@@ -42,8 +35,7 @@ class AuthScreen extends Component {
       if (this.state.password.length < 4) Alert.alert('오류', '패스워드는 4자리 이상이여야 합니다.');
       else {
         const self = this;
-        axios.post(apiUrl, {query : 
-          `mutation {
+        let createUserQuery = `mutation {
             createUser(
               email: "${this.state.email}",
               password: "${this.state.password}",
@@ -53,7 +45,7 @@ class AuthScreen extends Component {
               email
               accessToken
             }}`
-        }, {timeout: 1000})
+        api.post(createUserQuery)
           .then(r => {
             if (!r.data.errors) {
               return AsyncStorage.setItem('user', JSON.stringify(r.data.data.createUser))
