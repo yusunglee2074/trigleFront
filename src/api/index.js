@@ -7,12 +7,18 @@ axios.defaults.headers.post['Accept'] = 'application/json'
 
 const apiUrl = Platform.OS === 'ios' ? "http://localhost:3000/graphql" : "http://10.0.2.2:3000/graphql";
 
-let post = (query) => {
+const post = (query) => {
   return axios.post(apiUrl, {query}, {timeout: 1000});
 }
 
-let get = (query) => {
+const get = (query) => {
   return axios.get(apiUrl + "?query=" + query);
 }
 
-export default { post, get };
+const getUser = (AsyncStorage) => {
+  return AsyncStorage.getItem('user').then(user => {
+    return user = JSON.parse(user);
+  })
+}
+
+export default { post, get, gteUser };
