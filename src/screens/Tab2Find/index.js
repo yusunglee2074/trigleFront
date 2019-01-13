@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { 
-  FlatList, AsyncStorage, View, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity, WebView
+  Alert, AppState, FlatList, AsyncStorage, View, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
 import { Icon, SearchBar, Avatar } from 'react-native-elements';
 
@@ -12,14 +12,34 @@ class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: '',
+      keywords: '',
     };
   }
 
   componentDidMount() {
-    console.log(api.getUser())
-  }
-  
-  componentDidAppear() {
+    api.getStorageUser(AsyncStorage)
+      .then(user => {
+        this.setState({ user });
+        const query = `{
+          userKeywords(userId: "${user.id}") {
+            keywordId {
+              keyword
+            }
+          }
+        }`
+        return api.get(query);
+      })
+      .then(r => {
+        if (!r.data.data.userKeywords.length) {
+          Alert.alert('키워드가 없습니다.', '친추 추천을 받으려면\n 자신의 키워드를 먼저 골라야합니다.')
+          this.navigate("setKeyword")
+        } else {
+          console.log(r.data.data.userKeywords.length)
+          alert('버그')
+        }
+      })
+      .catch(e => console.log(e))
   }
 
   navigate = (to) => {
@@ -27,13 +47,14 @@ class Address extends Component {
       case 'profileDetail':
         this.props.navigation.navigate('profileDetail');
         break;
+      case 'setKeyword':
+        this.props.navigation.navigate('setKeyword');
+        break;
     }
   }
 
   render () {
-    return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
+    const hasKeyword = <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
           data={this.state.data}
           keyExtractor={(item, index) => item.id}
@@ -74,7 +95,12 @@ class Address extends Component {
             );
           }}
           numColumns= {2}
-        />
+        />;
+    const hasntKeyword = <Button onPress={() => this.navigate('setKeyword')} title="키워드를 먼저 설정하세요."></Button>;
+
+    return (
+      <SafeAreaView style={styles.container}>
+        { this.state.keywords ? hasKeyword : hasntKeyword }
       </SafeAreaView>
     );
   }
