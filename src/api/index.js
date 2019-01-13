@@ -21,4 +21,11 @@ const getStorageUser = (AsyncStorage) => {
   })
 }
 
-export default { post, get, getStorageUser };
+const setStorageUser = (AsyncStorage, updatedUser) => {
+  AsyncStorage.setItem('user', JSON.stringify(updatedUser))
+  return AsyncStorage.getItem('user').then(user => {
+    return user = JSON.parse(user);
+  })
+}
+
+export default { post, get, getStorageUser, setStorageUser };
