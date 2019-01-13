@@ -15,10 +15,10 @@ const get = (query) => {
   return axios.get(apiUrl + "?query=" + query);
 }
 
-const getUser = (AsyncStorage) => {
+const getStorageUser = (AsyncStorage) => {
   return AsyncStorage.getItem('user').then(user => {
     return user = JSON.parse(user);
   })
 }
 
-export default { post, get, getUser };
+export default { post, get, getStorageUser };
