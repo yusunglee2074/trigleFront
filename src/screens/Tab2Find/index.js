@@ -4,71 +4,22 @@ import {
 } from 'react-native';
 import { Icon, SearchBar, Avatar } from 'react-native-elements';
 
+import api from './../../api';
 import SplitTwoBar from './../Component/SplitTwoBar';
 
-const data = [
-  {
-    id: 1,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 2,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 3,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 4,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 5,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-];
 
 class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data
     };
   }
 
-  static navigationOptions =  ({ navigation }) => {
-    return {
-      headerRight: (
-        <Icon
-          name='plus'
-          type='simple-line-icon'
-          color='#000000'
-          onPress={navigation.getParam('add')} />
-        )
-    }
-  }
-
-  _add = () => {
-    alert('ㅇㅎ')
-  }
-
   componentDidMount() {
-    this.props.navigation.setParams({ add: this._add });
+    console.log(api.getUser())
   }
   
   componentDidAppear() {
-    this.setState({ text: 'power' });
   }
 
   navigate = (to) => {
