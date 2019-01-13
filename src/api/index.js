@@ -21,4 +21,4 @@ const getUser = (AsyncStorage) => {
   })
 }
 
-export default { post, get, gteUser };
+export default { post, get, getUser };
