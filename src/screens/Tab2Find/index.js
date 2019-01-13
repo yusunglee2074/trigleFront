@@ -31,12 +31,10 @@ class Address extends Component {
         return api.get(query);
       })
       .then(r => {
+        this.setState({ keywords: r.data.data.userKeywords})
         if (!r.data.data.userKeywords.length) {
           Alert.alert('키워드가 없습니다.', '친추 추천을 받으려면\n 자신의 키워드를 먼저 골라야합니다.')
           this.navigate("setKeyword")
-        } else {
-          console.log(r.data.data.userKeywords.length)
-          alert('버그')
         }
       })
       .catch(e => console.log(e))
@@ -48,9 +46,24 @@ class Address extends Component {
         this.props.navigation.navigate('profileDetail');
         break;
       case 'setKeyword':
-        this.props.navigation.navigate('setKeyword');
+        this.props.navigation.navigate('setKeyword', { setKeywords: (keywords) => this.setKeywords(keywords) });
         break;
     }
+  }
+  
+  setKeywords = (keywords) => {
+    let tempKeywords = []
+    for (let key in keywords) {
+      tempKeywords.push(keywords[key].keyword);
+    }
+    this.setState({ keywords: tempKeywords })
+    let user = Object.assign({}, this.state.user)
+    user.keywords = tempKeywords;
+    api.setStorageUser(AsyncStorage, user)
+      .then(user => {
+        this.setState({ user: user });
+      })
+      .catch(e => console.log(e))
   }
 
   render () {
