@@ -34,11 +34,11 @@ class Address extends Component {
   
   setKeywords = (keywords) => {
     let user = Object.assign({}, this.state.user)
-    user.keywords = tempKeywords;
+    user.keywords = keywords;
     api.setStorageUser(AsyncStorage, user)
       .then(user => {
         this.setState({ user: user });
-        getFriendlyUsers();
+        this.getFriendlyUsers();
       })
       .catch(e => console.log(e))
   }
