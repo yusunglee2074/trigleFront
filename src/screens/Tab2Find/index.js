@@ -13,31 +13,12 @@ class Address extends Component {
     super(props);
     this.state = {
       user: '',
-      keywords: '',
+      friendlyUsers: '',
     };
   }
 
   componentDidMount() {
-    api.getStorageUser(AsyncStorage)
-      .then(user => {
-        this.setState({ user });
-        const query = `{
-          userKeywords(userId: "${user.id}") {
-            keywordId {
-              keyword
-            }
-          }
-        }`
-        return api.get(query);
-      })
-      .then(r => {
-        this.setState({ keywords: r.data.data.userKeywords})
-        if (!r.data.data.userKeywords.length) {
-          Alert.alert('키워드가 없습니다.', '친추 추천을 받으려면\n 자신의 키워드를 먼저 골라야합니다.')
-          this.navigate("setKeyword")
-        }
-      })
-      .catch(e => console.log(e))
+    this.getFriendlyUsers();
   }
 
   navigate = (to) => {
@@ -52,16 +33,51 @@ class Address extends Component {
   }
   
   setKeywords = (keywords) => {
-    let tempKeywords = []
-    for (let key in keywords) {
-      tempKeywords.push(keywords[key].keyword);
-    }
-    this.setState({ keywords: tempKeywords })
     let user = Object.assign({}, this.state.user)
     user.keywords = tempKeywords;
     api.setStorageUser(AsyncStorage, user)
       .then(user => {
         this.setState({ user: user });
+        getFriendlyUsers();
+      })
+      .catch(e => console.log(e))
+  }
+
+  getFriendlyUsers = () => {
+    api.getStorageUser(AsyncStorage)
+      .then(user => {
+        this.setState({ user });
+        const query = `{
+          userKeywords(userId: "${user.id}") {
+            keywordId {
+              keyword
+            }
+          }
+        }`
+        return api.get(query);
+      })
+      .then(r => {
+        if (!r.data.data.userKeywords.length) {
+          Alert.alert('키워드가 없습니다.', '친추 추천을 받으려면\n 자신의 키워드를 먼저 골라야합니다.')
+          this.navigate("setKeyword")
+        } else {
+          // 키워드를 이용해서 추천 친구목록을 가져오자!
+          const query = `{
+            friendlyUsersByKeywords(userId: "${this.state.user.id}")
+            {
+              keywords
+              _id {
+                email
+              }
+              bothKeywords
+              sizeOfBothKeywords
+            }
+          }`
+          return api.get(query);
+        }
+      })
+      .then(r => {
+        this.setState({ friendlyUsers: r.data.data.friendlyUsersByKeywords})
       })
       .catch(e => console.log(e))
   }
@@ -69,13 +85,14 @@ class Address extends Component {
   render () {
     const hasKeyword = <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
-          data={this.state.keywords}
-          keyExtractor={(item, index) => item.id}
+          data={this.state.friendlyUsers}
+          keyExtractor={(item, index) => index}
+          numColumns= {1}
           renderItem={({ item, index }) => {
             return (
                 <TouchableOpacity
                   onPress={() => this.navigate('profileDetail')}
-                  style={{ 
+                  style={{
                     borderWidth: 2,
                     borderRadius: 2,
                     borderColor: '#969696',
@@ -107,13 +124,13 @@ class Address extends Component {
                 </TouchableOpacity>
             );
           }}
-          numColumns= {2}
         />;
     const hasntKeyword = <Button onPress={() => this.navigate('setKeyword')} title="키워드를 먼저 설정하세요."></Button>;
+    console.log(this.state.friendlyUsers)
 
     return (
       <SafeAreaView style={styles.container}>
-        { this.state.keywords ? hasKeyword : hasntKeyword }
+        { this.state.friendlyUsers ? hasKeyword : hasntKeyword }
       </SafeAreaView>
     );
   }
