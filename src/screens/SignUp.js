@@ -17,11 +17,30 @@ class AuthScreen extends Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('user').then(user => {
-      user = JSON.parse(user);
-      setTimeout(() => SplashScreen.hide(), 500);
-      if (user) this.props.navigation.navigate('main');
-    });
+    let databaseUser;
+    setTimeout(() => SplashScreen.hide(), 500);
+    api.getStorageUser(AsyncStorage)
+      .then(user => {
+        const query = `
+          {
+            user(id: "${user.id}") {
+              id
+              accessToken
+              email
+            }
+          }`;
+        return api.get(query)
+      })
+      .then(r => {
+        console.log(r.data.data);
+        if (!r.data.data.user) throw "user not exist";
+        return api.setStorageUser(AsyncStorage, r.data.data.user)
+      })
+      .then(user => {
+        if (user) this.props.navigation.navigate('main');
+        return api.getStorageUser(AsyncStorage)
+      })
+      .catch(e => console.log(e));
   }
   
   componentDidAppear() {
