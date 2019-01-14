@@ -69,7 +69,7 @@ class Address extends Component {
   render () {
     const hasKeyword = <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
-          data={this.state.data}
+          data={this.state.keywords}
           keyExtractor={(item, index) => item.id}
           renderItem={({ item, index }) => {
             return (
