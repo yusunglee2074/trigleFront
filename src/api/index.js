@@ -21,11 +21,37 @@ const getStorageUser = (AsyncStorage) => {
   })
 }
 
-const setStorageUser = (AsyncStorage, updatedUser) => {
-  AsyncStorage.setItem('user', JSON.stringify(updatedUser))
-  return AsyncStorage.getItem('user').then(user => {
-    return user = JSON.parse(user);
-  })
+const setStorageUser = async (AsyncStorage, updatedUser) => {
+  if (updateUser) {
+    let query = `mutation { updateUser (`
+    for (let key in updatedUser) {
+      query += (`${key}: "${updatedUser[key]}",`)
+    }
+    query = query.slice(0, -1);
+    query += `) {
+      id
+      email
+      nickname
+      accessToken
+      keywords {
+        id
+      }
+      profileImage {
+        url
+      }
+    }}`
+    try {
+      let user = await post(query)
+    } catch (e) {
+      console.log(e)
+      return -1
+    }
+    AsyncStorage.setItem('user', JSON.stringify(user))
+    return AsyncStorage.getItem('user').then(user => {
+      return user = JSON.parse(user);
+    })
+  } else {
+  }
 }
 
 export default { post, get, getStorageUser, setStorageUser };
