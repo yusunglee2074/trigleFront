@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { 
-  Alert, ScrollView, FlatList, AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, WebView
+  TextInput, Alert, ScrollView, FlatList, AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
-import { Icon, SearchBar, Avatar, Button } from 'react-native-elements';
+import { Input, Icon, SearchBar, Avatar, Button } from 'react-native-elements';
 
 import api from './../../api';
 
@@ -12,6 +12,7 @@ class Address extends Component {
     this.state = {
       defaultKeywords: [],
       checkedKeywords: {},
+      nickname: '',
     };
   }
 
@@ -40,7 +41,8 @@ class Address extends Component {
     this.setState({ defaultKeywords: defaultKeywords, checkedKeywords })
   }
 
-  saveKeyword = () => {
+  saveKeyword = async () => {
+    if (!this.state.nickname) return Alert.alert("오류", '본인의 닉네임을 입력해주세요.');
     let keywords = this.state.checkedKeywords;
     api.getStorageUser(AsyncStorage)
       .then(user => {
@@ -71,6 +73,9 @@ class Address extends Component {
           throw "emptyKeywords";
         }
         return Promise.all(promiseList);
+      })
+      .then(r => {
+        return api.setStorageUser(AsyncStorage, { nickname: this.state.nickname })
       })
       .then(r => {
         this.props.navigation.state.params.setKeywords(keywords);
@@ -107,6 +112,18 @@ class Address extends Component {
             )}
           />
         </ScrollView>
+        <Input
+          placeholder='닉네임'
+          onChangeText={(nickname) => this.setState({ nickname })}
+          leftIcon={
+            <Icon
+              name='tag'
+              type="evilicon"
+              size={24}
+              color='black'
+            />
+          }
+        />
         <Button title="저장" onPress={() => {this.saveKeyword()}}></Button>
       </SafeAreaView>
     );
