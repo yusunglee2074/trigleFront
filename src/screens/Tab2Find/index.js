@@ -68,6 +68,9 @@ class Address extends Component {
               keywords
               _id {
                 email
+                profileImage {
+                  url
+                }
               }
               bothKeywords
               sizeOfBothKeywords
@@ -77,6 +80,7 @@ class Address extends Component {
         }
       })
       .then(r => {
+        if (!r) return
         this.setState({ friendlyUsers: r.data.data.friendlyUsersByKeywords})
       })
       .catch(e => console.log(e))
@@ -112,7 +116,7 @@ class Address extends Component {
                   }}>
                   <Avatar
                     size="large"
-                    source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+                    source={{uri: item._id.profileImage.url}}
                     containerStyle={{ borderWidth: 2, borderColor: 'tomato' }}
                     onPress={() => console.log("Works!")}
                     activeOpacity={0.7}
