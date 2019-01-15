@@ -22,7 +22,7 @@ const getStorageUser = (AsyncStorage) => {
 }
 
 const setStorageUser = async (AsyncStorage, updatedUser) => {
-  if (updateUser) {
+  if (updatedUser) {
     let query = `mutation { updateUser (`
     for (let key in updatedUser) {
       query += (`${key}: "${updatedUser[key]}",`)
