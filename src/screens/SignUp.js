@@ -32,13 +32,8 @@ class AuthScreen extends Component {
         return api.get(query)
       })
       .then(r => {
-        console.log(r.data.data);
         if (!r.data.data.user) throw "user not exist";
-        return api.setStorageUser(AsyncStorage, r.data.data.user)
-      })
-      .then(user => {
-        if (user) this.props.navigation.navigate('main');
-        return api.getStorageUser(AsyncStorage)
+        if (r.data.data.user) this.props.navigation.navigate('main');
       })
       .catch(e => console.log(e));
   }
