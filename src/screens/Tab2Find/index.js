@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { 
-  Alert, AppState, FlatList, AsyncStorage, View, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity, WebView
+  Alert, AppState, FlatList, AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
-import { Icon, SearchBar, Avatar } from 'react-native-elements';
+import { Icon, SearchBar, Avatar, Button } from 'react-native-elements';
 
 import api from './../../api';
 import SplitTwoBar from './../Component/SplitTwoBar';
@@ -63,16 +63,24 @@ class Address extends Component {
         } else {
           // 키워드를 이용해서 추천 친구목록을 가져오자!
           const query = `{
-            friendlyUsersByKeywords(userId: "${this.state.user.id}")
-            {
-              keywords
+            friendlyUsersByKeywords(userId: "${this.state.user.id}") {
               _id {
                 email
                 profileImage {
                   url
                 }
+                nickname
+                keywords {
+                  id
+                  keywordId {
+                    keyword
+                  }
+                }
               }
-              bothKeywords
+              bothKeywords{
+                id
+                keyword
+              }
               sizeOfBothKeywords
             }
           }`
@@ -87,10 +95,20 @@ class Address extends Component {
   }
 
   render () {
+    const keywords = (keywords) => {
+      let keywordList = [];
+      for (let i = 0; i < keywords.length; i++) {
+
+        keywordList.push(
+          <Text>{keywords[i].keyword} </Text>
+        );
+      }
+      return keywordList;
+    };
     const hasKeyword = <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
           data={this.state.friendlyUsers}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index.toString()}
           numColumns= {1}
           renderItem={({ item, index }) => {
             return (
@@ -117,14 +135,14 @@ class Address extends Component {
                   <Avatar
                     size="large"
                     source={{uri: item._id.profileImage.url}}
-                    containerStyle={{ borderWidth: 2, borderColor: 'tomato' }}
+                    containerStyle={{ marginBottom: 10, borderWidth: 2, borderColor: 'tomato' }}
                     onPress={() => console.log("Works!")}
                     activeOpacity={0.7}
                   />
-                  <Text>{item.nickname}</Text>
-                  <Text>#주부, #짜장면, #오버워치</Text>
+                  <Text>{item._id.nickname}</Text>
                   <View style={styles.divider}/>
-                  <Text>공통 키워드 4</Text>
+                  <Text>공통 키워드 {item.sizeOfBothKeywords}개</Text>
+                  <View style={{flex: 1, flexDirection: 'row'}}>{keywords(item.bothKeywords)}</View>
                 </TouchableOpacity>
             );
           }}
