@@ -17,18 +17,24 @@ const get = (query) => {
 
 const getStorageUser = (AsyncStorage) => {
   return AsyncStorage.getItem('user').then(user => {
-    return user = JSON.parse(user);
+    return JSON.parse(user);
   })
 }
 
 const setStorageUser = async (AsyncStorage, updatedUser) => {
-  if (updatedUser) {
-    let query = `mutation { updateUser (`
-    for (let key in updatedUser) {
-      query += (`${key}: "${updatedUser[key]}",`)
-    }
-    query = query.slice(0, -1);
-    query += `) {
+  AsyncStorage.setItem('user', JSON.stringify(updatedUser))
+  return AsyncStorage.getItem('user').then(user => {
+    return JSON.parse(user);
+  })
+}
+
+const updateUser = async (user) => {
+  let query = `mutation { updateUser (`
+  for (let key in user) {
+    query += (`${key}: "${user[key]}",`)
+  }
+  query = query.slice(0, -1);
+  query += `) {
       id
       email
       nickname
@@ -40,18 +46,12 @@ const setStorageUser = async (AsyncStorage, updatedUser) => {
         url
       }
     }}`
-    try {
-      let user = await post(query)
-    } catch (e) {
-      console.log(e)
-      return -1
-    }
-    AsyncStorage.setItem('user', JSON.stringify(user))
-    return AsyncStorage.getItem('user').then(user => {
-      return user = JSON.parse(user);
-    })
-  } else {
+  try {
+    return await post(query);
+  } catch (e) {
+    console.log(e)
+    return -1
   }
 }
 
-export default { post, get, getStorageUser, setStorageUser };
+export default { updateUser, post, get, getStorageUser, setStorageUser };
