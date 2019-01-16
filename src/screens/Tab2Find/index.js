@@ -130,8 +130,6 @@ class Address extends Component {
           }}
         />;
     const hasntKeyword = <Button onPress={() => this.navigate('setKeyword')} title="키워드를 먼저 설정하세요."></Button>;
-    console.log(this.state.friendlyUsers)
-
     return (
       <SafeAreaView style={styles.container}>
         { this.state.friendlyUsers ? hasKeyword : hasntKeyword }
