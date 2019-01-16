@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { 
   ScrollView, TouchableOpacity, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
-import { List, ListItem } from 'react-native-elements'
+import { List, ListItem } from 'react-native-elements';
+import api from './../../api';
 
 const list = [
   {
@@ -51,8 +52,6 @@ const list = [
     title: '회원탈퇴',
     icon: 'trash',
     iconType: 'simple-line-icon',
-    rightIcon: 'arrow-right',
-    rightIconType: 'simple-line-icon'
   }
 ]
 
@@ -93,7 +92,15 @@ class AuthScreen extends Component {
       case 'aboutTrigle':
         this.props.navigation.navigate('aboutTrigle');
         break;
+      case 'logout':
+        this.props.navigation.navigate('auth');
+        break;
     }
+  }
+
+  logout = () => {
+    AsyncStorage.setItem('user', '')
+    this.navigate('logout');
   }
 
   render () {
@@ -130,6 +137,14 @@ class AuthScreen extends Component {
               }
             })
           }
+          <TouchableOpacity
+            onPress={() => {this.logout()}}
+          >
+            <ListItem
+              title={'로그아웃'}
+              leftIcon={{ name: 'trash', type: 'simple-line-icon' }}
+            />
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
