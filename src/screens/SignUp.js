@@ -21,6 +21,7 @@ class AuthScreen extends Component {
     setTimeout(() => SplashScreen.hide(), 500);
     api.getStorageUser(AsyncStorage)
       .then(user => {
+        if (!user) return;
         const query = `
           {
             user(id: "${user.id}") {
@@ -32,6 +33,7 @@ class AuthScreen extends Component {
         return api.get(query)
       })
       .then(r => {
+        if (!r) return;
         if (!r.data.data.user) throw "user not exist";
         if (r.data.data.user) this.props.navigation.navigate('main');
       })
