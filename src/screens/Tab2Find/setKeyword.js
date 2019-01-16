@@ -13,6 +13,7 @@ class Address extends Component {
       defaultKeywords: [],
       checkedKeywords: {},
       nickname: '',
+      user: {},
     };
   }
 
@@ -46,6 +47,7 @@ class Address extends Component {
     let keywords = this.state.checkedKeywords;
     api.getStorageUser(AsyncStorage)
       .then(user => {
+        this.setState({ user });
         let keywordCounter = 0;
         let promiseList = [];
         for (let key in keywords) {
@@ -75,14 +77,15 @@ class Address extends Component {
         return Promise.all(promiseList);
       })
       .then(r => {
-        return api.setStorageUser(AsyncStorage, { nickname: this.state.nickname })
+        return api.updateUser({ id: this.state.user.id, nickname: this.state.nickname })
       })
       .then(r => {
         this.props.navigation.state.params.setKeywords(keywords);
         this.props.navigation.goBack(null)
       })
-      .catch(e => console.log(e));
-
+      .catch(e => {
+        console.log(e)
+      });
   }
 
   render () {
