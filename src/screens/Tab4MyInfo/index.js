@@ -62,11 +62,10 @@ class AuthScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
   }
   
   componentDidAppear() {
-    this.setState({ text: 'power' });
   }
 
   navigate = (to) => {
