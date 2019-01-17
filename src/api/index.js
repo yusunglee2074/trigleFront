@@ -54,4 +54,18 @@ const updateUser = async (user) => {
   }
 }
 
-export default { updateUser, post, get, getStorageUser, setStorageUser };
+const getUser = (userId, moreInfo = []) => {
+  let query = `{
+      user(id: "${userId}") {
+        id
+        nickname
+        email
+        `
+  for (let i = 0; i < moreInfo.length; i++) {
+    query += (moreInfo[i] + ` \n `)
+  }
+  query += `}}`
+  return get(query);
+}
+
+export default { getUser, updateUser, post, get, getStorageUser, setStorageUser };
