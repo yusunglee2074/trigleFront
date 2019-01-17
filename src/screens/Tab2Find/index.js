@@ -21,10 +21,10 @@ class Address extends Component {
     this.getFriendlyUsers();
   }
 
-  navigate = (to) => {
+  navigate = (to, params) => {
     switch(to) {
       case 'profileDetail':
-        this.props.navigation.navigate('profileDetail');
+        this.props.navigation.navigate('profileDetail', params);
         break;
       case 'setKeyword':
         this.props.navigation.navigate('setKeyword', { setKeywords: (keywords) => this.setKeywords(keywords) });
@@ -65,6 +65,7 @@ class Address extends Component {
           const query = `{
             friendlyUsersByKeywords(userId: "${this.state.user.id}") {
               _id {
+                id
                 email
                 profileImage {
                   url
@@ -113,7 +114,7 @@ class Address extends Component {
           renderItem={({ item, index }) => {
             return (
                 <TouchableOpacity
-                  onPress={() => this.navigate('profileDetail')}
+                  onPress={() => this.navigate('profileDetail', { user: item._id })}
                   style={{
                     borderWidth: 2,
                     borderRadius: 2,
