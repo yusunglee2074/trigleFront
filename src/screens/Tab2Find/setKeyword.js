@@ -115,6 +115,7 @@ class Address extends Component {
             )}
           />
         </ScrollView>
+        <Text>4번째 탭의 프로필에서 주소와 생일을 추가하시면 편지를 받을 확률이 높아집니다.</Text>
         <Input
           placeholder='닉네임'
           onChangeText={(nickname) => this.setState({ nickname })}

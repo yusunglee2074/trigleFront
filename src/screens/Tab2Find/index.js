@@ -99,9 +99,8 @@ class Address extends Component {
     const keywords = (keywords) => {
       let keywordList = [];
       for (let i = 0; i < keywords.length; i++) {
-
         keywordList.push(
-          <Text>{keywords[i].keyword} </Text>
+          <Text key={i}>{keywords[i].keyword} </Text>
         );
       }
       return keywordList;
