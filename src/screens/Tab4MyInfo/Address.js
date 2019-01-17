@@ -3,58 +3,30 @@ import {
   FlatList, AsyncStorage, View, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
 import { Icon, SearchBar, Avatar } from 'react-native-elements';
+import api from './../../api'
 
 import SplitTwoBar from './../Component/SplitTwoBar';
-
-const data = [
-  {
-    id: 1,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 2,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 3,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 4,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-  {
-    id: 5,
-    nickname: '하늘이#13',
-    profilePicUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    commonTopic: 3,
-  },
-];
 
 class Address extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data
+      user: '',
+      addresses: '',
+      isLoading: true,
     };
   }
 
   static navigationOptions =  ({ navigation }) => {
     return {
       headerRight: (
-        <Icon
-          name='plus'
-          type='simple-line-icon'
-          color='#000000'
-          onPress={navigation.getParam('add')} />
+        <TouchableOpacity
+            onPress={navigation.getParam('add')}
+        >
+          <View style={{marginRight: 18 }}>
+            <Text style={{ fontSize: 16, color: "rgb(31, 133, 250)" }}>추가</Text>
+          </View>
+        </TouchableOpacity>
         )
     }
   }
@@ -63,40 +35,58 @@ class Address extends Component {
     alert('ㅇㅎ')
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.navigation.setParams({ add: this._add });
+    api.getStorageUser(AsyncStorage)
+      .then(user => {
+        this.setState({ user });
+        const query = `{
+          addresses(userId: "${this.state.user.id}"){
+            id
+            receiverId {
+              id
+              nickname
+              profileImage {
+                url
+              }
+            }
+            numberOfSent
+            numberOfReceived
+          }
+        }`;
+        return api.get(query)
+      })
+      .then(r => {
+        if (r.status === 200) this.setState({ isLoading: false, addresses: r.data.data.addresses });
+        else throw r.data.data.errors
+      })
+      .catch(e => console.log(e))
   }
   
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
 
-  navigate = (to) => {
+  navigate = (to, params) => {
     switch(to) {
       case 'profileDetail':
-        this.props.navigation.navigate('profileDetail');
+        this.props.navigation.navigate('profileDetail', params);
         break;
     }
   }
 
   render () {
-    let tempList = [{name: '성유#12', address1: '경기도 수원시 우만동', address2: '세지로 420 301호'}, {name: '김철수', address1: '전라남도 목포시 용해동', address2: '동아아파트 301호'}]
-    return (
-      <SafeAreaView style={styles.container}>
-        <SearchBar
-          lightTheme
-          round
-          onChangeText={this._add}
-          onClearText={this._add}
-          placeholder='Type Here...' />
-        <FlatList
-          style={{ flex:1, marginHorizontal: 10 }}
-          data={this.state.data}
-          keyExtractor={(item, index) => item.id}
-          renderItem={({ item, index }) => {
-            return (
+    if (!this.state.isLoading) {
+      return (
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            style={{ flex:1, marginHorizontal: 10 }}
+            data={this.state.addresses}
+            keyExtractor={(item, index) => item.id}
+            renderItem={({ item, index }) => {
+              return (
                 <TouchableOpacity
-                  onPress={() => this.navigate('profileDetail')}
+                  onPress={() => this.navigate('profileDetail', { userId: item.receiverId.id})}
                   style={{ 
                     borderWidth: 2,
                     borderRadius: 2,
@@ -117,22 +107,26 @@ class Address extends Component {
                   }}>
                   <Avatar
                     size="large"
-                    source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+                    source={{uri: item.receiverId.profileImage.url}}
                     containerStyle={{ borderWidth: 2, borderColor: 'tomato' }}
                     onPress={() => console.log("Works!")}
                     activeOpacity={0.7}
                   />
-                  <Text>{item.nickname}</Text>
-                  <Text>서울특별시</Text>
+                  <Text>{item.receiverId.nickname}</Text>
+                  <Text>지역: {item.receiverId.address1 ? item.receiverId.address1 : '비공개'}</Text>
                   <View style={styles.divider}/>
-                  <Text>주고받은 횟수 4</Text>
+                  <Text>주고 받은 횟수: {item.numberOfSent + item.numberOfReceived}</Text>
                 </TouchableOpacity>
-            );
-          }}
-          numColumns= {2}
-        />
-      </SafeAreaView>
-    );
+              );
+            }}
+            numColumns= {2}
+          />
+        </SafeAreaView>
+      );
+    }
+    else {
+      return <Text>로딩중</Text>
+    }
   }
 }
 
