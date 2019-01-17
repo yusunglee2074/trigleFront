@@ -3,6 +3,9 @@ import {
   ScrollView, AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
 import { Icon, Avatar, Button } from 'react-native-elements';
+import moment from 'moment';
+import 'moment/locale/ko'
+import api from './../api';
 
 const user = {
   nickname: '볶음밥#13',
@@ -22,7 +25,8 @@ class ProfileDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: user
+      profileUser: '',
+      me: '',
     };
   }
 
@@ -39,7 +43,23 @@ class ProfileDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ title: this.state.user.nickname});
+    api.getStorageUser(AsyncStorage)
+      .then(user => {
+        return this.setState({ me: user })
+      })
+      .then(r => {
+        // 나와 이 유저와의 관계를 알아내는게 있어야 한다.
+        // 주소록에 등록되어있나?
+        let currentProfileUserId = this.props.navigation.state.params.user.id;
+        return api.getUser(currentProfileUserId, ['profileImage{ url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
+      })
+      .then(r => {
+        let user = r.data.data.user;
+        moment.locale('ko')
+        user.updatedAt = moment(user.updatedAt).fromNow();
+        return this.setState({ profileUser: user })
+      })
+      .catch(e => console.log(e))
   }
 
   componentDidAppear() {
@@ -53,22 +73,24 @@ class ProfileDetail extends Component {
           <View style={{ backgroundColor: 'grey', height: 65 }}>
           </View>
           <View style={{ marginTop: 100, padding: 20 }}>
+            <Text style={{ fontSize: 26, marginBottom: 6 }}>{this.state.profileUser.nickname}</Text>
             <View style={{ flexDirection: 'row'}}>
               <Icon name="cake" type="entypo" size={14}></Icon>
-              <Text> 생일 {this.state.user.birthday}</Text>
+              <Text> 생일: {this.state.profileUser.birthday ? this.state.profileUser.birthday : "공개안함"}</Text>
             </View>
             <View style={{ flexDirection: 'row'}}>
               <Icon name="location-pin" type="entypo" size={14}></Icon>
-              <Text> 지역 경기도 수원시</Text>
+              <Text> 지역: {this.state.profileUser.address1 ? this.state.profileUser.address1 : "공개안함"}</Text>
             </View>
             <View style={{ flexDirection: 'row'}}>
               <Icon name="documents" type="entypo" size={14}></Icon>
-              <Text> 답장률 70%</Text>
+              <Text> 답장률: 70%</Text>
             </View>
             <View style={{ flexDirection: 'row'}}>
               <Icon name="back-in-time" type="entypo" size={14}></Icon>
-              <Text> 마지막 접속 {this.state.user.lastLogin}</Text>
+              <Text> 마지막 접속: {this.state.profileUser.updatedAt}</Text>
             </View>
+            <Button title="주소록에 추가" onPress={() => this.toggleAddress()}></Button>
             <View style={styles.divider}/>
             <View>
               <Text>관심 키워드</Text>
@@ -189,8 +211,8 @@ class ProfileDetail extends Component {
             style={{ position:'absolute', left: 15, top: 0 }}>
             <Avatar
               size="xlarge"
-              containerStyle={{ borderWidth: 3, borderColor: 'white' }}
-              source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}}
+              containerStyle={{ borderWidth: 3, borderColor: 'white', backgroundColor: "white" }}
+              source={{uri: this.state.profileUser.profileImage ? this.state.profileUser.profileImage.url : ''}}
               onPress={() => console.log("Works!")}
               activeOpacity={0.7}
             />
