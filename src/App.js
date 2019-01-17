@@ -30,6 +30,7 @@ import SendMailScreen from './screens/Tab4MyInfo/SendMail';
 import ReceiveMailScreen from './screens/Tab4MyInfo/ReceiveMail';
 import ContactScreen from './screens/Tab4MyInfo/Contact';
 import AboutTrigleScreen from './screens/Tab4MyInfo/AboutTrigle';
+import NewAddressScreen from './screens/Tab4MyInfo/NewAddress';
 
 
 const AuthStackNavigation = createStackNavigator({
@@ -81,6 +82,7 @@ const MyInfoStackNavigation = createStackNavigator({
   aboutTrigle: { screen: AboutTrigleScreen, navigationOptions: { title: '트리글' } },
   profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
+  newAddress: { screen: NewAddressScreen, navigationOptions: { title: '주소 추가' } },
 }, {
   initialRouteName: 'entry',
 })
