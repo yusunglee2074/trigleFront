@@ -38,7 +38,7 @@ class ProfileDetail extends Component {
       .then(r => {
         // 나와 이 유저와의 관계를 알아내는게 있어야 한다.
         // 주소록에 등록되어있나?
-        let currentProfileUserId = this.props.navigation.state.params.user.id;
+        let currentProfileUserId = this.props.navigation.state.params.userId;
         return api.getUser(currentProfileUserId, ['profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
       })
       .then(r => {
@@ -108,6 +108,7 @@ class ProfileDetail extends Component {
       let keywords = [];
       for (let i = 0; i < this.state.profileUser.keywords.length; i++) {
         keywords.push(<Button
+          key={i}
           title={this.state.profileUser.keywords[i].keywordId.keyword}
           titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
           buttonStyle={{
