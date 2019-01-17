@@ -134,6 +134,7 @@ class Address extends Component {
                   }}>
                   <Avatar
                     size="large"
+                    rounded
                     source={{uri: item._id.profileImage.url}}
                     containerStyle={{ marginBottom: 10, borderWidth: 2, borderColor: 'tomato' }}
                     onPress={() => console.log("Works!")}

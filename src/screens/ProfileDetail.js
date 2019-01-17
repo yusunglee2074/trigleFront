@@ -74,11 +74,6 @@ class ProfileDetail extends Component {
         createAddress(
           userId: "${this.state.me.id}",
           receiverId: "${profileUser.id}",
-          receiverName: "${profileUser.nickname}",
-          address1: "${profileUser.address1 ? profileUser.address1 : ''}",
-          address2: "${profileUser.address2 ? profileUser.address2 : ''}",
-          detailAddress: "${profileUser.detailAddress ? profileUser.detailAddress : ''}",
-          profileImage: "${profileUser.profileImage.id}",
           numberOfSent: 0,
           numberOfReceived: 0,
         ) {
