@@ -45,7 +45,9 @@ class Tab3Write extends Component {
     alert('보낸다 정말')
   }
 
-  setReceiver = () => {
+  setReceiver = async () => {
+    let receiver = await api.getReceiver(AsyncStorage)
+    console.log(receiver)
   }
 
   componentWillMount() {
