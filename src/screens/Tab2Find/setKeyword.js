@@ -3,6 +3,8 @@ import {
   TextInput, Alert, ScrollView, FlatList, AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, WebView
 } from 'react-native';
 import { Input, Icon, SearchBar, Avatar, Button } from 'react-native-elements';
+import axios from 'axios';
+axios.defaults.headers.get['Authorization'] = 'KakaoAK cc62ead48c2202c3e98c5d994d4bc7dd'
 
 import api from './../../api';
 
@@ -13,6 +15,12 @@ class Address extends Component {
       defaultKeywords: [],
       checkedKeywords: {},
       nickname: '',
+      searchWord: '',
+      searchAddresses: '',
+      nickname: '',
+      address1: '',
+      address2: '',
+      detailAddress: '',
       user: {},
     };
   }
@@ -43,7 +51,10 @@ class Address extends Component {
   }
 
   saveKeyword = async () => {
-    if (!this.state.nickname) return Alert.alert("오류", '본인의 닉네임을 입력해주세요.');
+    let st = this.state;
+    if (!st.nickname || !st.address1 || !st.address2 || !st.detailAddress) {
+      return Alert.alert("빈칸 오류", "주소와 닉네임을 모두 채워주세요");
+    };
     let keywords = this.state.checkedKeywords;
     api.getStorageUser(AsyncStorage)
       .then(user => {
@@ -77,7 +88,13 @@ class Address extends Component {
         return Promise.all(promiseList);
       })
       .then(r => {
-        return api.updateUser({ id: this.state.user.id, nickname: this.state.nickname })
+        return api.updateUser({ 
+          id: this.state.user.id, 
+          nickname: this.state.nickname,
+          address1: this.state.address1,
+          address2: this.state.address2,
+          detailAddress: this.state.detailAddress,
+        })
       })
       .then(r => {
         this.props.navigation.state.params.setKeywords(keywords);
@@ -88,7 +105,48 @@ class Address extends Component {
       });
   }
 
+  searchAddress = () => {
+    axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${this.state.searchWord}`)
+      .then(r => {
+        let searchAddress = r.data.documents
+        searchAddress.length ? null : searchAddress = '검색결과가 없습니다.';
+        this.setState({ searchAddress: searchAddress })
+        console.log(this.state)
+      })
+      .catch(e => console.log(e))
+  }
+
+  getAddress = (address) => {
+    if (!address.address || !address.road_address) {
+      return Alert.alert("주소를 끝까지 입력해주세요.", 
+        "우만동(X) 우만동 503(O),\n세지로 200길(X) 세지로 200길 42(O)");
+    }
+    this.setState({ 
+      address1: address.road_address.region_1depth_name + ' ' + address.road_address.region_2depth_name, 
+      address2: address.road_address.road_name + ' ' 
+      + address.road_address.main_building_no
+      + (address.road_address.sub_building_no ? '-' + address.road_address.sub_building_no : ''),
+    });
+  }
+
   render () {
+    let addressList;
+    if (typeof this.state.searchAddress === 'object') {
+      addressList = [];
+      for (let i = 0; i < this.state.searchAddress.length; i++) {
+        addressList.push((
+          <TouchableOpacity
+            key={i}
+            onPress={() => this.getAddress(this.state.searchAddress[i])}
+          >
+            <Text>{this.state.searchAddress[i].address_name}</Text>
+          </TouchableOpacity>
+        ));
+      }
+    }
+    else {
+      addressList = <Text>{this.state.searchAddress}</Text>
+    }
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -114,20 +172,71 @@ class Address extends Component {
               />
             )}
           />
-        </ScrollView>
-        <Text>4번째 탭의 프로필에서 주소와 생일을 추가하시면 편지를 받을 확률이 높아집니다.</Text>
-        <Input
-          placeholder='닉네임'
-          onChangeText={(nickname) => this.setState({ nickname })}
-          leftIcon={
-            <Icon
-              name='tag'
-              type="evilicon"
-              size={24}
-              color='black'
+          <SafeAreaView style={styles.container}>
+            <Text>아래 주소는 다른유저에게 공개되지 않습니다.</Text>
+            <Input
+              placeholder='주소명'
+              onChangeText={(searchWord) => this.setState({ searchWord })}
+              leftIcon={
+                <Icon
+                  name='user'
+                  size={24}
+                  color='black'
+                />
+              }
             />
-          }
-        />
+            <Button title="주소검색" onPress={() => this.searchAddress()}></Button>
+            { addressList }
+            <Input
+              placeholder='이름'
+              onChangeText={(nickname) => this.setState({ nickname })}
+              value={this.state.nickname}
+              leftIcon={
+                <Icon
+                  name='user'
+                  size={24}
+                  color='black'
+                />
+              }
+            />
+            <Input
+              placeholder='주소1'
+              onChangeText={(address1) => this.setState({ address1 })}
+              value={this.state.address1}
+              leftIcon={
+                <Icon
+                  name='user'
+                  size={24}
+                  color='black'
+                />
+              }
+            />
+            <Input
+              placeholder='주소2'
+              onChangeText={(address2) => this.setState({ address2 })}
+              value={this.state.address2}
+              leftIcon={
+                <Icon
+                  name='user'
+                  size={24}
+                  color='black'
+                />
+              }
+            />
+            <Input
+              placeholder='상세주소'
+              onChangeText={(detailAddress) => this.setState({ detailAddress })}
+              value={this.state.detailAddress}
+              leftIcon={
+                <Icon
+                  name='user'
+                  size={24}
+                  color='black'
+                />
+              }
+            />
+          </SafeAreaView>
+        </ScrollView>
         <Button title="저장" onPress={() => {this.saveKeyword()}}></Button>
       </SafeAreaView>
     );

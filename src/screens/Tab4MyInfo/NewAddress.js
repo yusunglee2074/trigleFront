@@ -40,7 +40,6 @@ class AboutTrigle extends Component {
         let searchAddress = r.data.documents
         searchAddress.length ? null : searchAddress = '검색결과가 없습니다.';
         this.setState({ searchAddress: searchAddress })
-        console.log(this.state)
       })
       .catch(e => console.log(e))
   }
