@@ -40,7 +40,6 @@ class ProfileDetail extends Component {
         })
         .then(r => {
           let addressId = this.props.navigation.state.params.addressId;
-          console.log(addressId)
           const query = `{
             address(id: "${addressId}") {
               id
@@ -62,7 +61,11 @@ class ProfileDetail extends Component {
           tempUser.profileImage = address.profileImage;
           tempUser.updatedAt = '미가입유저';
           tempUser.keywords = [];
-          tempUser.address1 = address.address1 + ' ' + address.address2 + ' ' + address.detailAddress;
+          tempUser.address1 = address.address1;
+          tempUser.address2 = address.address2;
+          tempUser.id = address.id;
+          tempUser.detailAddress = address.detailAddress;
+
           this.setState({ notJoinUser: true, address: true, profileUser: tempUser, isLoading: false });
         })
         .catch(e => console.log(e));
@@ -134,6 +137,14 @@ class ProfileDetail extends Component {
       .catch(e => console.log(e))
   }
 
+  goWrite = () => {
+    api.setReceiver(AsyncStorage, this.state.profileUser)
+      .then(r => {
+        this.props.navigation.navigate('write');
+      })
+      .catch(e => console.log(e))
+  }
+
   render () {
     if (!this.state.isLoading) {
       let addressButton = <Button title="주소록에 추가" onPress={() => this.toggleAddress(true)}></Button>;
@@ -169,10 +180,19 @@ class ProfileDetail extends Component {
                     <Text> 생일: {this.state.profileUser.birthday ? this.state.profileUser.birthday : "공개안함"}</Text>
                   </View>) 
               }
-              <View style={{ flexDirection: 'row'}}>
-                <Icon name="location-pin" type="entypo" size={14}></Icon>
-                <Text> 지역: {this.state.profileUser.address1 ? this.state.profileUser.address1 : "공개안함"}</Text>
-              </View>
+              {this.state.notJoinUser
+                  ? (<View style={{ flexDirection: 'row'}}>
+                    <Icon name="location-pin" type="entypo" size={14}></Icon>
+                    <Text> 지역: {this.state.profileUser.address1
+                        + ' ' + this.state.profileUser.address2
+                        + ' ' + this.state.profileUser.detailAddress }</Text>
+                  </View>)
+                  : (<View style={{ flexDirection: 'row'}}>
+                    <Icon name="location-pin" type="entypo" size={14}></Icon>
+                    <Text> 지역: {this.state.profileUser.address1 ? this.state.profileUser.address1 : "공개안함"}</Text>
+                  </View>)
+              }
+              
               {this.state.notJoinUser
                   ? null 
                   : (<View style={{ flexDirection: 'row'}}>
@@ -206,7 +226,7 @@ class ProfileDetail extends Component {
           </ScrollView>
           <View>
             <Text>주소록삭제 + 차단</Text>
-            <Button title="편지쓰기" onPress=""></Button>
+            <Button title="편지쓰기" onPress={() => this.goWrite()}></Button>
           </View>
         </SafeAreaView>
       );
