@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
   AsyncStorage, View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity
 } from 'react-native';
-import { Icon, Divider } from 'react-native-elements';
+import { Icon, Divider, Button } from 'react-native-elements';
 import api from './../../api';
 
 class Tab3Write extends Component {
@@ -47,10 +47,25 @@ class Tab3Write extends Component {
 
   setReceiver = async () => {
     let receiver = await api.getReceiver(AsyncStorage)
-    console.log(receiver)
+    if (receiver.updatedAt === "미가입유저") {
+      let tempReceiver = this.state.receiver;
+      tempReceiver.push(receiver);
+      this.setState({ receiver: tempReceiver });
+    }
+    else if (receiver.nickname) {
+      let tempReceiver = this.state.receiver;
+      tempReceiver.push(receiver);
+      this.setState({ receiver: tempReceiver });
+    }
+    api.setReceiver(AsyncStorage, [])
   }
 
   componentWillMount() {
+    api.setReceiver(AsyncStorage, [])
+      .then(r => {
+        this.setState({ receiver: [] });
+      })
+      .catch(e => console.log(e));
     const didBlurSubscription = this.props.navigation.addListener(
       'didFocus',
       payload => {
@@ -98,7 +113,26 @@ class Tab3Write extends Component {
     }
   }
 
+  deleteReceiver = (index) => {
+    let tempReceiver = Object.assign([], this.state.receiver);
+    tempReceiver.splice(index, 1)
+    this.setState({ receiver: tempReceiver });
+  }
+
   render () {
+    let receivers = [];
+    for (let i = 0; i < this.state.receiver.length; i++) {
+      receivers.push((
+            <Button 
+              key={i}
+              onPress={() => this.deleteReceiver(i)}
+              titleStyle={{ fontSize: 14 }}
+              style={styles.buttonInput}
+              title={this.state.receiver[i].nickname.length > 4
+                  ? (this.state.receiver[i].nickname.slice(0, 4) + '...')
+              : this.state.receiver[i].nickname}></Button>
+      ));
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -106,7 +140,7 @@ class Tab3Write extends Component {
             style={styles.inputForm}>
             <Text
               style={styles.label}
-            >보낸사람</Text>
+            >보낸이</Text>
             <TextInput
               style={styles.textInput}
               onChangeText={(senderName) => this.setState({ senderName })}
@@ -121,10 +155,10 @@ class Tab3Write extends Component {
           >
             <Text
               style={styles.label}
-            >받는사람</Text>
-            <Text
-              style={styles.textInput}
-            ></Text>
+            >받는이</Text>
+            <View style={{ marginLeft: 4, flex: 0.83, flexDirection: 'row' }}>
+              { receivers }
+            </View>
           </TouchableOpacity>
           <View style={styles.divider}/>
         </View>
@@ -224,6 +258,12 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 0.83,
     fontSize: 16
+  },
+  buttonInput: {
+    marginRight: 4,
+    height: 30,
+    fontSize: 8,
+    width: 74,
   },
   divider: { borderBottomColor: '#cccccc', borderBottomWidth: 1 }
 });
