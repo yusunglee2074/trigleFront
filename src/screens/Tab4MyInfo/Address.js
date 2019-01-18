@@ -21,7 +21,7 @@ class Address extends Component {
     return {
       headerRight: (
         <TouchableOpacity
-            onPress={navigation.getParam('add')}
+          onPress={navigation.getParam('add')}
         >
           <View style={{marginRight: 18 }}>
             <Text style={{ fontSize: 16, color: "rgb(31, 133, 250)" }}>추가</Text>
@@ -32,11 +32,10 @@ class Address extends Component {
   }
 
   _add = () => {
-    alert('ㅇㅎ')
+    this.props.navigation.navigate('newAddress', { userId: this.state.user.id, getAddresses: () => this.getAddresses() })
   }
 
-  componentWillMount() {
-    this.props.navigation.setParams({ add: this._add });
+  getAddresses = () => {
     api.getStorageUser(AsyncStorage)
       .then(user => {
         this.setState({ user });
@@ -49,7 +48,13 @@ class Address extends Component {
               profileImage {
                 url
               }
+              address1
             }
+            profileImage {
+              url
+            }
+            receiverName
+            address1
             numberOfSent
             numberOfReceived
           }
@@ -57,10 +62,16 @@ class Address extends Component {
         return api.get(query)
       })
       .then(r => {
+        console.log(r.data.data.addresses)
         if (r.status === 200) this.setState({ isLoading: false, addresses: r.data.data.addresses });
         else throw r.data.data.errors
       })
       .catch(e => console.log(e))
+  }
+
+  componentWillMount() {
+    this.props.navigation.setParams({ add: this._add });
+    this.getAddresses();
   }
   
   componentDidAppear() {
@@ -107,13 +118,14 @@ class Address extends Component {
                   }}>
                   <Avatar
                     size="large"
-                    source={{uri: item.receiverId.profileImage.url}}
+                    source={{uri: item.receiverId ? item.receiverId.profileImage.url : item.profileImage.url}}
                     containerStyle={{ borderWidth: 2, borderColor: 'tomato' }}
                     onPress={() => console.log("Works!")}
                     activeOpacity={0.7}
                   />
-                  <Text>{item.receiverId.nickname}</Text>
-                  <Text>지역: {item.receiverId.address1 ? item.receiverId.address1 : '비공개'}</Text>
+                  <Text>{item.receiverId ? item.receiverId.nickname : item.receiverName}</Text>
+                  <Text>지역: {item.address1 ? item.address1 
+                      : (item.receiverId.addrss1 ? item.receiverId.addrss1 : "미입력") }</Text>
                   <View style={styles.divider}/>
                   <Text>주고 받은 횟수: {item.numberOfSent + item.numberOfReceived}</Text>
                 </TouchableOpacity>
