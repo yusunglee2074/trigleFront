@@ -58,16 +58,16 @@ const FindScreenStackNavigation = createStackNavigator({
 })
 
 const WriteScreenStackNavigation = createStackNavigator({
-  entry: { screen: Tab3WriteScreen, navigationOptions: { title: '편지 쓰기' } },
+  write: { screen: Tab3WriteScreen, navigationOptions: { title: '편지 쓰기' } },
   selectPaper: { screen: SelectPaperScreen, navigationOptions: { title: '편지지 선택' } },
-  write: { screen: WriteTextWebViewScreen, navigationOptions: { title: '본문 작성' } },
+  // write: { screen: WriteTextWebViewScreen, navigationOptions: { title: '본문 작성' } },
   selectReceiver: { screen: AddressScreen , navigationOptions: { title: '받는이 선택' } },
   selectEnvelope: { screen: SelectEnvelopeScreen, navigationOptions: { title: '편지봉투 선택' } },
   selectMedia: { screen: SelectMediaScreen, navigationOptions: { title: '사진, 영상 추가' } },
   profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
-  initialRouteName: 'entry',
+  initialRouteName: 'write',
 })
 
 const MyInfoStackNavigation = createStackNavigator({
