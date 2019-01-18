@@ -50,7 +50,7 @@ const MainScreenStackNavigation = createStackNavigator({
 
 const FindScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab2FindScreen, navigationOptions: { title: '친구 찾기' } },
-  setKeyword: { screen: SetKeywordScreen, navigationOptions: { title: '키워드 설정' } },
+  setKeyword: { screen: SetKeywordScreen, navigationOptions: { title: '프로필 완성' } },
   profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {

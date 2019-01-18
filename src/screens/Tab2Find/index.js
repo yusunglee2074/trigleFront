@@ -58,7 +58,7 @@ class Address extends Component {
       })
       .then(r => {
         if (!r.data.data.userKeywords.length) {
-          Alert.alert('키워드가 없습니다.', '친추 추천을 받으려면\n 자신의 키워드를 먼저 골라야합니다.')
+          Alert.alert('프로필 완성이 필요합니다.', '친추 추천을 받으려면\n 프로필을 완성해야 합니다.')
           this.navigate("setKeyword")
         } else {
           // 키워드를 이용해서 추천 친구목록을 가져오자!
