@@ -15,6 +15,7 @@ class ProfileDetail extends Component {
       me: '',
       address: '',
       isLoading: true,
+      notJoinUser: false,
     };
   }
 
@@ -31,35 +32,69 @@ class ProfileDetail extends Component {
   }
 
   componentWillMount() {
-    api.getStorageUser(AsyncStorage)
-      .then(user => {
-        return this.setState({ me: user })
-      })
-      .then(r => {
-        // 나와 이 유저와의 관계를 알아내는게 있어야 한다.
-        // 주소록에 등록되어있나?
-        let currentProfileUserId = this.props.navigation.state.params.userId;
-        return api.getUser(currentProfileUserId, ['profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
-      })
-      .then(r => {
-        let user = r.data.data.user;
-        moment.locale('ko')
-        user.updatedAt = moment(user.updatedAt).fromNow();
-        return this.setState({ profileUser: user })
-      })
-      .then(r => {
-        const query = `{
+    if (!this.props.navigation.state.params.userId) {
+      // 유저 아이디가 없는 그저 주소만 있는 유저를 위해
+      api.getStorageUser(AsyncStorage)
+        .then(user => {
+          return this.setState({ me: user })
+        })
+        .then(r => {
+          let addressId = this.props.navigation.state.params.addressId;
+          console.log(addressId)
+          const query = `{
+            address(id: "${addressId}") {
+              id
+              receiverName
+              profileImage {
+                url
+              }
+              address1
+              address2
+              detailAddress
+            }
+          }`
+          return api.get(query);
+        })
+        .then(r => {
+          let address = r.data.data.address
+          let tempUser = {};
+          tempUser.nickname = address.receiverName;
+          tempUser.profileImage = address.profileImage;
+          tempUser.updatedAt = '미가입유저';
+          tempUser.keywords = [];
+          tempUser.address1 = address.address1 + ' ' + address.address2 + ' ' + address.detailAddress;
+          this.setState({ notJoinUser: true, address: true, profileUser: tempUser, isLoading: false });
+        })
+        .catch(e => console.log(e));
+    }
+    else {
+      api.getStorageUser(AsyncStorage)
+        .then(user => {
+          return this.setState({ me: user })
+        })
+        .then(r => {
+          let currentProfileUserId = this.props.navigation.state.params.userId;
+          return api.getUser(currentProfileUserId, ['profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
+        })
+        .then(r => {
+          let user = r.data.data.user;
+          moment.locale('ko')
+          user.updatedAt = moment(user.updatedAt).fromNow();
+          return this.setState({ profileUser: user })
+        })
+        .then(r => {
+          const query = `{
           address(userId: "${this.state.me.id}", receiverId: "${this.state.profileUser.id}") {
             id
           }
         }`
-        return api.get(query);
-      })
-      .then(r => {
-        console.log(this.state)
-        this.setState({ isLoading: false, address: r.data.data.address });
-      })
-      .catch(e => console.log(e))
+          return api.get(query);
+        })
+        .then(r => {
+          this.setState({ isLoading: false, address: r.data.data.address });
+        })
+        .catch(e => console.log(e))
+    }
   }
 
   componentDidAppear() {
@@ -82,6 +117,9 @@ class ProfileDetail extends Component {
       }`
     }
     else {
+      if (this.state.notJoinUser) {
+        return
+      }
       query = `mutation {
         deleteAddress(
           userId: "${this.state.me.id}",
@@ -124,18 +162,24 @@ class ProfileDetail extends Component {
             </View>
             <View style={{ marginTop: 100, padding: 20 }}>
               <Text style={{ fontSize: 26, marginBottom: 6 }}>{this.state.profileUser.nickname}</Text>
-              <View style={{ flexDirection: 'row'}}>
-                <Icon name="cake" type="entypo" size={14}></Icon>
-                <Text> 생일: {this.state.profileUser.birthday ? this.state.profileUser.birthday : "공개안함"}</Text>
-              </View>
+              {this.state.notJoinUser
+                  ? null
+                  : (<View style={{ flexDirection: 'row'}}>
+                    <Icon name="cake" type="entypo" size={14}></Icon>
+                    <Text> 생일: {this.state.profileUser.birthday ? this.state.profileUser.birthday : "공개안함"}</Text>
+                  </View>) 
+              }
               <View style={{ flexDirection: 'row'}}>
                 <Icon name="location-pin" type="entypo" size={14}></Icon>
                 <Text> 지역: {this.state.profileUser.address1 ? this.state.profileUser.address1 : "공개안함"}</Text>
               </View>
-              <View style={{ flexDirection: 'row'}}>
+              {this.state.notJoinUser
+                  ? null 
+                  : (<View style={{ flexDirection: 'row'}}>
                 <Icon name="documents" type="entypo" size={14}></Icon>
                 <Text> 답장률: 70%</Text>
-              </View>
+              </View>) 
+              }
               <View style={{ flexDirection: 'row'}}>
                 <Icon name="back-in-time" type="entypo" size={14}></Icon>
                 <Text> 마지막 접속: {this.state.profileUser.updatedAt}</Text>
@@ -143,7 +187,7 @@ class ProfileDetail extends Component {
               {this.state.address ? alreadyAdded : addressButton}
               <View style={styles.divider}/>
               <View>
-                <Text>관심 키워드</Text>
+                { this.state.notJoinUser ? <Text></Text> : <Text>관심 키워드</Text> }
                 <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
                   {keywords ? keywords : ''}
                 </View>
@@ -160,6 +204,10 @@ class ProfileDetail extends Component {
               />
             </View>
           </ScrollView>
+          <View>
+            <Text>주소록삭제 + 차단</Text>
+            <Button title="편지쓰기" onPress=""></Button>
+          </View>
         </SafeAreaView>
       );
     }
