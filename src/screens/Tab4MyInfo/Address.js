@@ -97,7 +97,8 @@ class Address extends Component {
             renderItem={({ item, index }) => {
               return (
                 <TouchableOpacity
-                  onPress={() => this.navigate('profileDetail', { userId: item.receiverId.id})}
+                  onPress={() => this.navigate('profileDetail', 
+                    { userId: item.receiverId ? item.receiverId.id : null, addressId: item.id })}
                   style={{ 
                     borderWidth: 2,
                     borderRadius: 2,
