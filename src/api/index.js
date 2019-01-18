@@ -11,6 +11,19 @@ const post = (query) => {
   return axios.post(apiUrl, {query}, {timeout: 1000});
 }
 
+const setReceiver = (AsyncStorage, receiverArray) => {
+  AsyncStorage.setItem('receivers', JSON.stringify(receiverArray))
+  return AsyncStorage.getItem('receivers').then(receivers => {
+    return JSON.parse(receivers);
+  })
+}
+
+const getReceiver = (AsyncStorage) => {
+  return AsyncStorage.getItem('receivers').then(receivers => {
+    return JSON.parse(receivers);
+  })
+}
+
 const get = (query) => {
   return axios.get(apiUrl + "?query=" + query);
 }
@@ -68,4 +81,4 @@ const getUser = (userId, moreInfo = []) => {
   return get(query);
 }
 
-export default { getUser, updateUser, post, get, getStorageUser, setStorageUser };
+export default { setReceiver, getReceiver, getUser, updateUser, post, get, getStorageUser, setStorageUser };
