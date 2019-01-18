@@ -77,7 +77,7 @@ class ProfileDetail extends Component {
         })
         .then(r => {
           let currentProfileUserId = this.props.navigation.state.params.userId;
-          return api.getUser(currentProfileUserId, ['profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
+          return api.getUser(currentProfileUserId, ['address1', 'profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
         })
         .then(r => {
           let user = r.data.data.user;
