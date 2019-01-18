@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import { 
   AsyncStorage, View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity
 } from 'react-native';
-import { Icon, Divider } from 'react-native-elements'
+import { Icon, Divider } from 'react-native-elements';
+import api from './../../api';
 
 class Tab3Write extends Component {
   constructor(props) {
     super(props);
     this.state = {
       child: '',
+      user: '',
+      senderName: '',
+      receiver: [],
+      contentText: '',
+      files: [],
     };
   }
 
@@ -39,9 +45,27 @@ class Tab3Write extends Component {
     alert('보낸다 정말')
   }
 
-  componentDidMount() {
+  setReceiver = () => {
+  }
+
+  componentWillMount() {
+    const didBlurSubscription = this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+        this.setReceiver();
+      }
+    );
     this.props.navigation.setParams({ add: this._add });
     this.props.navigation.setParams({ post: this._post });
+    api.getStorageUser(AsyncStorage)
+      .then(user => {
+        return api.getUser(user.id,)
+      })
+      .then(r => {
+        let user = r.data.data.user;
+        this.setState({ user, senderName: user.nickname })
+      })
+      .catch(e => console.log(e));
   }
   
   componentDidAppear() {
@@ -49,10 +73,7 @@ class Tab3Write extends Component {
   }
 
   addReceiver = () => {
-    function getData(data) {
-      this.setState({ child: data })
-    }
-    this.props.navigation.navigate('selectReceiver', { getData: getData.bind(this) });
+    this.props.navigation.navigate('selectReceiver');
   }
 
   navigate = (to) => {
@@ -86,7 +107,8 @@ class Tab3Write extends Component {
             >보낸사람</Text>
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({ text })}
+              onChangeText={(senderName) => this.setState({ senderName })}
+              value={this.state.senderName}
               placeholder="보낸사람"
             ></TextInput>
           </View>
