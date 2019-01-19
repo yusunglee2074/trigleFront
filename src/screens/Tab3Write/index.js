@@ -76,7 +76,7 @@ class Tab3Write extends Component {
     this.props.navigation.setParams({ post: this._post });
     api.getStorageUser(AsyncStorage)
       .then(user => {
-        return api.getUser(user.id,)
+        return api.getUser(user.id)
       })
       .then(r => {
         let user = r.data.data.user;
