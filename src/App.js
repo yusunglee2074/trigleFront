@@ -66,6 +66,7 @@ const WriteScreenStackNavigation = createStackNavigator({
   selectMedia: { screen: SelectMediaScreen, navigationOptions: { title: '사진, 영상 추가' } },
   profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
+  newAddress: { screen: NewAddressScreen, navigationOptions: { title: '주소 추가' } },
 }, {
   initialRouteName: 'write',
 })
