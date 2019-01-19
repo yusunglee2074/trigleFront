@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import ProfileImgSwiper from './Component/ProfileImgSwiper';
 import api from './../api';
 
+//TODO: 로그인 할때마다 updatedAt을 지금으로 갱신해야한다.
 class AuthScreen extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,7 @@ class AuthScreen extends Component {
   componentDidMount() {
     let databaseUser;
     setTimeout(() => SplashScreen.hide(), 500);
+    api.setReceiver(AsyncStorage, [])
     api.getStorageUser(AsyncStorage)
       .then(user => {
         if (!user) return;
