@@ -54,9 +54,9 @@ class AuthScreen extends Component {
   static navigationOptions =  ({ navigation }) => {
     return {
       headerRight: (
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', marginRight: 14 }}>
           <Icon
-            name='question-circle-o'
+            name='plus-square-o'
             type='font-awesome'
             color='#f50'
             onPress={navigation.getParam('add')} />
@@ -66,7 +66,7 @@ class AuthScreen extends Component {
   }
 
   _add = () => {
-    alert('ㅇㅎ')
+    this.props.navigation.navigate('write');
   }
 
   componentDidMount() {
