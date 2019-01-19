@@ -166,8 +166,8 @@ class Tab3Write extends Component {
           <View style={{ flex: 1, justifyContent: 'flex-start', marginLeft: 10, marginTop:10 }}>
             <TextInput
               style={{ fontSize: 16 }}
-              value={this.state.value}
-              onChangeText={text=>this.setState({value:text})}
+              value={this.state.contentText}
+              onChangeText={contentText =>this.setState({ contentText })}
               multiline={true}
               underlineColorAndroid='transparent'
               placeholder='내용 작성'
