@@ -11,6 +11,7 @@ import ProfileDetailScreen from './screens/ProfileDetail';
 import MailDetailScreen from './screens/MailDetail';
 
 import Tab1MainScreen from './screens/Tab1Main/';
+import Tab1WriteScreen from './screens/Tab1Main/Write';
 
 import Tab2FindScreen  from './screens/Tab2Find/';
 import SetKeywordScreen from './screens/Tab2Find/setKeyword';
@@ -42,6 +43,7 @@ const AuthStackNavigation = createStackNavigator({
 
 const MainScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab1MainScreen, navigationOptions: { title: '트리글' } },
+  write: { screen: Tab1WriteScreen, navigationOptions: { title: '메인화면 글쓰기' } },
   profileDetail: { screen: ProfileDetailScreen },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
