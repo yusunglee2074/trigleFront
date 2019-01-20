@@ -3,51 +3,15 @@ import {
   TouchableOpacity, FlatList, AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
+import api from './../../api';
+import moment from 'moment';
+moment.locale('ko')
 
-const data = [
-  {
-    id: 1,
-    content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
-    sender: '볶음김치#123',
-    date: JSON.stringify(new Date())
-  },
-  {
-    id: 2,
-    content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
-    sender: '볶음김치#123',
-    date: JSON.stringify(new Date())
-  },
-  {
-    id: 3,
-    content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
-    sender: '볶음김치#123',
-    date: JSON.stringify(new Date())
-  },
-  {
-    id: 4,
-    content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
-    sender: '볶음김치#123',
-    date: JSON.stringify(new Date())
-  },
-  {
-    id: 5,
-    content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
-    sender: '볶음김치#123',
-    date: JSON.stringify(new Date())
-  },
-  {
-    id: 6,
-    content: '안녕 만나서 반가워! 나는 28살이고 경기도 수원에 살고있는 남자야! 나는 앱 개발자로 일하고있어! 너는 어떤일을 하고 있니?',
-    sender: '볶음김치#123',
-    date: JSON.stringify(new Date())
-  },
-];
-
-class AuthScreen extends Component {
+class Tab1MainScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data
+      data: '',
     };
   }
 
@@ -71,6 +35,22 @@ class AuthScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({ add: this._add });
+    const query = `{
+      mails(isOffline: false) {
+        id
+        content
+        senderId {
+          id
+          nickname
+        }
+        createdAt
+      }
+    }`;
+    api.get(query)
+      .then(r => {
+        this.setState({ data: r.data.data.mails });
+        console.log(r)
+      })
   }
   
   componentDidAppear() {
@@ -93,7 +73,7 @@ class AuthScreen extends Component {
         <FlatList
           style={{ flex:1, marginHorizontal: 10 }}
           data={this.state.data}
-          keyExtractor={(item, index) => item.id}
+          keyExtractor={(item, index) => String(index)}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
@@ -116,8 +96,8 @@ class AuthScreen extends Component {
                   elevation: 3,
                 }}>
                 <Text>{item.content}</Text>
-                <Text>{item.sender}</Text>
-                <Text>{item.date}</Text>
+                <Text>{item.senderId.nickname}</Text>
+                <Text>{moment(item.createdAt).fromNow()}</Text>
               </TouchableOpacity>
             );
           }}
@@ -139,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+export default Tab1MainScreen;
