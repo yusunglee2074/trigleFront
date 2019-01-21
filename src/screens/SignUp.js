@@ -34,6 +34,7 @@ class AuthScreen extends Component {
       })
       .then(user => {
         if (!user) return;
+        api.updateUser({id: user.id});
         if (user) this.props.navigation.navigate('main');
       })
       .catch(e => console.log(e));
