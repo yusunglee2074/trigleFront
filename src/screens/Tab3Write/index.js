@@ -93,9 +93,16 @@ class Tab3Write extends Component {
       let price;
       if (st.isNormalPost) price = 1000
       else price = 1800;
+      let tempQuery = '';
+      if (st.receiver[i].updatedAt == '미가입유저') {
+        tempQuery = `receiverAddressId: "${st.receiver[i].id}",`;
+      } else {
+        tempQuery = `receiverId: "${st.receiver[i].id}",`;
+      }
+
       let query = `mutation {
         createMail(
-          receiverAddressId: "${st.receiver[i].id}",
+          ${tempQuery}
           sender: "${st.senderName}",
           senderId: "${st.user.id}",
           content: "${st.contentText}",
