@@ -23,21 +23,18 @@ class AuthScreen extends Component {
     api.setReceiver(AsyncStorage, [])
     api.getStorageUser(AsyncStorage)
       .then(user => {
-        if (!user) return;
-        const query = `
-          {
-            user(id: "${user.id}") {
-              id
-              accessToken
-              email
-            }
-          }`;
-        return api.get(query)
+        if (!user.id) throw void 0;
+        return api.getUser(user.id)
       })
       .then(r => {
-        if (!r) return;
-        if (!r.data.data.user) throw "user not exist";
-        if (r.data.data.user) this.props.navigation.navigate('main');
+        let data = r.data.data;
+        if (data.user) {
+          return api.setStorageUser(AsyncStorage, data.user);
+        }
+      })
+      .then(user => {
+        if (!user) return;
+        if (user) this.props.navigation.navigate('main');
       })
       .catch(e => console.log(e));
   }
