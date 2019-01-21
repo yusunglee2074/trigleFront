@@ -49,7 +49,6 @@ class Tab1MainScreen extends Component {
     api.get(query)
       .then(r => {
         this.setState({ data: r.data.data.mails });
-        console.log(r)
       })
   }
   
