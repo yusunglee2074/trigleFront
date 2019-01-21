@@ -30,7 +30,7 @@ class Tab1MainScreen extends Component {
   }
 
   _add = () => {
-    this.props.navigation.navigate('write');
+    this.props.navigation.navigate('writeOnlineMail');
   }
 
   componentDidMount() {
