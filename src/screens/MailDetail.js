@@ -4,67 +4,93 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Avatar } from 'react-native-elements';
+import api from './../api';
+import moment from 'moment';
 
-const mailData = {
-  sender: {
-    nickname: '파란#1'
-  },
-  receiver: {
-    nickname: '짜장#1'
-  },
-  content: "안안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하안녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하녕 만나서 반갑습니다.\n저는 이유성입니다. \n하하하. 저기 잘먹고 잘살고있어요?",
-  date: JSON.stringify(new Date())
-}
-
-class AboutTrigle extends Component {
+class MailDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mail: mailData
+      mail: '',
+      isLoading: true,
     };
   }
 
   componentDidMount() {
+    let mailId = this.props.navigation.state.params.mailId;
+    const query = `{
+      mail(id: "${mailId}") {
+        id
+        content
+        createdAt
+        isOffline
+        senderId {
+          id
+          nickname
+          profileImage {
+            url
+          }
+        }
+        receiverAddressId {
+          id
+          receiverId {
+            id
+            nickname
+          }
+        }
+      }
+    }`
+    api.get(query).then(r => {
+      this.setState({ mail: r.data.data.mail, isLoading: false });
+    })
   }
-  
+
   componentDidAppear() {
     this.setState({ text: 'power' });
   }
 
-  navigate = (to) => {
+  navigate = (to, params) => {
     switch(to) {
       case 'profileDetail':
-        this.props.navigation.navigate('profileDetail');
+        this.props.navigation.navigate('profileDetail', params);
         break;
     }
   }
 
   render () {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.content}>
-          <View style={{ maxHeight: "74%"}}>
-            <ScrollView>
-              <Text style={styles.receiver}><Text>To. </Text>{this.state.mail.receiver.nickname}</Text>
-              <Text style={styles.text}>{this.state.mail.content}</Text>
-            </ScrollView>
-          </View>
-          <TouchableOpacity 
-            onPress={() => this.navigate('profileDetail')}
-            style={styles.sender}>
-            <Avatar
-              size='medium'
-              source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"}}
-              activeOpacity={0.7}
-            />
-            <View style={{ flex: 0.9, marginLeft: 10 }}>
-              <Text style={styles.senderName}>{this.state.mail.sender.nickname}</Text>
-              <Text style={styles.date}>{this.state.mail.date}</Text>
+    if (this.state.isLoading) return (<Text>로딩중</Text>)
+    else { 
+      return (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.content}>
+            <View style={{ maxHeight: "74%"}}>
+              <ScrollView>
+                <Text style={styles.receiver}>
+                  To. {this.state.mail.isOffline
+                      ? this.state.mail.receiverAddressId.receiverId.nickname
+                      : "누군가"
+                  }
+                </Text>
+                <Text style={styles.text}>{this.state.mail.content}</Text>
+              </ScrollView>
             </View>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
+            <TouchableOpacity 
+              onPress={() => this.navigate('profileDetail', { userId: this.state.mail.senderId.id })}
+              style={styles.sender}>
+              <Avatar
+                size='medium'
+                source={{uri: this.state.mail.senderId.profileImage.url }}
+                activeOpacity={0.7}
+              />
+              <View style={{ flex: 0.9, marginLeft: 10 }}>
+                <Text style={styles.senderName}>{this.state.mail.senderId.nickname}</Text>
+                <Text style={styles.date}>{moment(this.state.mail.createdAt).fromNow()}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      );
+    }
   }
 }
 
@@ -73,7 +99,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    backgroundColor: 'grey',
     padding: 20,
     margin: 25,
     flex: 1,
@@ -112,4 +137,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AboutTrigle;
+export default MailDetail;
