@@ -166,6 +166,15 @@ class ProfileDetail extends Component {
           containerStyle={{ marginTop: 10, marginRight: 5 }}
         />);
       }
+      let sendMail;
+      if (this.state.me.id !== this.state.profileUser.id) {
+        sendMail = (<View>
+          <Text>주소록삭제 + 차단</Text>
+          <Button title="편지쓰기" onPress={() => this.goWrite()}></Button>
+        </View>);
+      } else {
+        addressButton = void 0;
+      }
       return (
         <SafeAreaView style={styles.container}>
           <ScrollView>
@@ -224,10 +233,7 @@ class ProfileDetail extends Component {
               />
             </View>
           </ScrollView>
-          <View>
-            <Text>주소록삭제 + 차단</Text>
-            <Button title="편지쓰기" onPress={() => this.goWrite()}></Button>
-          </View>
+          { sendMail }
         </SafeAreaView>
       );
     }
