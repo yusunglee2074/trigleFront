@@ -75,7 +75,7 @@ const WriteScreenStackNavigation = createStackNavigator({
 
 const MyInfoStackNavigation = createStackNavigator({
   entry: { screen: Tab4MyInfoScreen, navigationOptions: { title: '설정 메뉴' } },
-  profile: { screen: ProfileScreen, navigationOptions: { title: '프로필' } },
+  profile: { screen: ProfileDetailScreen , navigationOptions: { title: '내 프로필' } },
   statistics: { screen: StatisticsScreen, navigationOptions: { title: '공지사항' } },
   address: { screen: AddressScreen, navigationOptions: { title: '주소록' } },
   sendMail: { screen: SendMailScreen, navigationOptions: { title: '보낸 편지' } },

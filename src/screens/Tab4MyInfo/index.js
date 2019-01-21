@@ -59,19 +59,24 @@ class AuthScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: ''
     };
   }
 
   componentWillMount() {
+    api.getStorageUser(AsyncStorage).then(user => {
+      this.setState({ user });
+    })
+      .catch(e => console.log(e))
   }
   
   componentDidAppear() {
   }
 
-  navigate = (to) => {
+  navigate = (to, params) => {
     switch(to) {
       case 'profile':
-        this.props.navigation.navigate('profile');
+        this.props.navigation.navigate('profile', params);
         break;
       case 'statistics':
         this.props.navigation.navigate('statistics');
@@ -110,7 +115,7 @@ class AuthScreen extends Component {
             list.map((item, i) => { 
               let a = (
                 <TouchableOpacity
-                  onPress={() => {this.navigate(`${item.navigation}`)}}
+                  onPress={() => {this.navigate(`${item.navigation}`, { userId: this.state.user.id})}}
                   key={i}
                 >
                   <ListItem
