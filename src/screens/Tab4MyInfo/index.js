@@ -79,25 +79,25 @@ class AuthScreen extends Component {
         this.props.navigation.navigate('profile', params);
         break;
       case 'statistics':
-        this.props.navigation.navigate('statistics');
+        this.props.navigation.navigate('statistics', params);
         break;
       case 'address':
-        this.props.navigation.navigate('address');
+        this.props.navigation.navigate('address', params);
         break;
       case 'sendMail':
-        this.props.navigation.navigate('sendMail');
+        this.props.navigation.navigate('sendMail', params);
         break;
       case 'receiveMail':
-        this.props.navigation.navigate('receiveMail');
+        this.props.navigation.navigate('receiveMail', params);
         break;
       case 'contact':
-        this.props.navigation.navigate('contact');
+        this.props.navigation.navigate('contact', params);
         break;
       case 'aboutTrigle':
-        this.props.navigation.navigate('aboutTrigle');
+        this.props.navigation.navigate('aboutTrigle', params);
         break;
       case 'logout':
-        this.props.navigation.navigate('auth');
+        this.props.navigation.navigate('auth', params);
         break;
     }
   }
