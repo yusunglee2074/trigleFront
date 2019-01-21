@@ -51,8 +51,13 @@ class WriteScreen extends Component {
   componentDidMount() {
     api.getStorageUser(AsyncStorage)
       .then(user => {
-        this.setState({user});
+        return api.getUser(user.id)
       })
+      .then(r => {
+        this.setState({user: r.data.data.user});
+        return api.setStorageUser(AsyncStorage, r.data.data.user)
+      })
+      .catch(e => console.log('에러', e))
     this.props.navigation.setParams({ add: this._add });
   }
   
