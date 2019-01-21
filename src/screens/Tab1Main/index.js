@@ -60,10 +60,10 @@ class Tab1MainScreen extends Component {
     this.setState({ text: 'power' });
   }
 
-  navigate = (to) => {
+  navigate = (to, params) => {
     switch(to) {
       case 'mailDetail':
-        this.props.navigation.navigate('mailDetail');
+        this.props.navigation.navigate('mailDetail', params);
         break;
     }
   }
@@ -80,7 +80,7 @@ class Tab1MainScreen extends Component {
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                onPress={() => this.navigate('mailDetail')}
+                onPress={() => this.navigate('mailDetail', { mailId: item.id })}
                 style={{ 
                   borderWidth: 2,
                   borderRadius: 2,
