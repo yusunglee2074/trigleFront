@@ -30,13 +30,12 @@ class Tab1MainScreen extends Component {
   }
 
   _add = () => {
-    this.props.navigation.navigate('writeOnlineMail');
+    this.props.navigation.navigate('writeOnlineMail', { getOnlineMails: () => this.getOnlineMails() });
   }
 
-  componentDidMount() {
-    this.props.navigation.setParams({ add: this._add });
+  getOnlineMails = () => {
     const query = `{
-      mails(isOffline: false) {
+      getOnlineMails {
         id
         content
         senderId {
@@ -48,8 +47,13 @@ class Tab1MainScreen extends Component {
     }`;
     api.get(query)
       .then(r => {
-        this.setState({ data: r.data.data.mails });
+        this.setState({ data: r.data.data.getOnlineMails });
       })
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ add: this._add });
+    this.getOnlineMails();
   }
   
   componentDidAppear() {

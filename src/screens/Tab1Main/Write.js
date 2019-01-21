@@ -43,7 +43,10 @@ class WriteScreen extends Component {
     }`;
     api.post(query)
       .then(r => {
-        if (r.status === 200) this.props.navigation.goBack(null);
+        if (!r.data.data.errors) {
+          this.props.navigation.state.params.getOnlineMails();
+          this.props.navigation.goBack(null);
+        }
       })
       .catch(e => console.log(e));
   }
