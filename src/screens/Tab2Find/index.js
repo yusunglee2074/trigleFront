@@ -5,8 +5,6 @@ import {
 import { Icon, SearchBar, Avatar, Button } from 'react-native-elements';
 
 import api from './../../api';
-import SplitTwoBar from './../Component/SplitTwoBar';
-
 
 class Address extends Component {
   constructor(props) {
