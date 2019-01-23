@@ -47,33 +47,15 @@ class Tab3Write extends Component {
 
   //TODO: 사진과 영상 업로드, 로직을 작성해야한다.
   _addImage = () => {
-    if (Platform.OS === 'ios') {
       ImagePicker.openPicker({
-        width: 30,
-        height: 40,
+        width: 200,
+        height: 400,
         cropping: true
       })
-        .then(image => {
-          return ImagePicker.openCropper({
-            path: image.path,
-            width: 30,
-            height: 40
-          })
-        })
         .then(image => {
           console.log(image);
         })
         .catch(e => console.log(e));
-    } 
-    else {
-      ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true
-      }).then(image => {
-        console.log(image);
-      });
-    }
   }
 
   _addVideo = () => {

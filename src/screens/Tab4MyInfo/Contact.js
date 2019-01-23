@@ -31,7 +31,6 @@ class Contact extends Component {
   }
   
   componentDidAppear() {
-    this.setState({ text: 'power' });
   }
 
   togle = (i) => {
