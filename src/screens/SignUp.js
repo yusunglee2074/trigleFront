@@ -44,7 +44,6 @@ class AuthScreen extends Component {
   }
   
   componentDidAppear() {
-    this.setState({ text: 'power' });
   }
 
   signUpClick = async () => {
@@ -150,6 +149,9 @@ class AuthScreen extends Component {
         <Divider style={{ margin: 30, backgroundColor: api.color.sd }} />
         <TouchableOpacity onPress={this.signInClick}>
           <Text style={{ marginLeft: 30, marginRight: 30,color: 'blue' }}>아이디가 있습니다.</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.aboutServiceClick}>
+          <Text style={{ marginLeft: 30, marginRight: 30,color: 'blue' }}>무슨 서비스인가요?</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );

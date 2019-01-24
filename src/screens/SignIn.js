@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { 
-  AsyncStorage, View, Text, TextInput, Button, Platform, StyleSheet, SafeAreaView
+  TouchableOpacity, ScrollView, Dimensions, Image, Alert, AsyncStorage, View, Text, TextInput, Platform, StyleSheet, SafeAreaView
 } from 'react-native';
+import { Divider, Input, Button } from 'react-native-elements';
 import SplashScreen from 'react-native-splash-screen';
+import ProfileImgSwiper from './Component/ProfileImgSwiper';
+import api from './../api';
 
+const deviceWidth = Dimensions.get('window').width;
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -12,54 +16,88 @@ class AuthScreen extends Component {
     }, 500)
     super(props);
     this.state = {
-      text: 'test'
+      email: '',
+      password: '',
     };
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('user').then(user => {
-      if (user) {
-        // 유저가 있으며 메인 페이지로 쏨j
-
-      }
-    })
   }
   
   componentDidAppear() {
-    this.setState({ text: 'power' });
   }
 
+  signInClick = () => {
+    // 로그인 로직 유저 있는지 없는지 검사 Asyncstorage유저 저장
+    const self = this;
+    const query = `{
+      userWithPassword(email: "${this.state.email}", password: "${this.state.password}") {
+        id
+        nickname
+        email
+      }
+    }`;
+    api.get(query).then(r => {
+      if (r.data.errors) {
+        if (r.data.errors[0].message === "password is not correct") {
+          throw Alert.alert("이메일/패스워드가 일치하지 않습니다.");
+        }
+        else if (r.data.errors[0].message === "email does not exist") {
+          throw Alert.alert("해당 이메일이 존재하지 않습니다.");
+        }
+        else throw Alert.alert("에러발생");
+      } else {
+        return api.setStorageUser(AsyncStorage, r.data.data.userWithPassword) 
+      }
+    }).then(user => {
+      self.props.navigation.navigate('main')
+    }).catch(e => console.log(e));
 
-
-
-  signUpClick = () => {
-    // 이메일, 비밀번호 서버콜치고 받은 엑세스 코드와 유저정보 acyncstroage에 저장
-    AsyncStorage.setItem('user', '저장완료').then(() => {
-      this.props.navigation.navigate('home')
-      // 그 후 메인페이지로 쏨
-      // Navigation.dismissAllModals();
-    })
   }
 
 
   render () {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>TRIPLE(로고)</Text>
-        <Button title="어떤 서비스인가요?"></Button>
-        <TextInput placeholder="이메일"></TextInput>
-        <TextInput placeholder="패스워드"></TextInput>
-        <Button title="회원가입" onPress={this.signUpClick}></Button>
         <View
-          style={{
-          borderBottomColor: 'black',
-          borderBottomWidth: 1,
-          marginTop: 10,
-          marginBottom: 10
+          style={{height: 150, width: deviceWidth * 0.7, margin: deviceWidth * 0.15, marginBottom: 60 }}
+        >
+          <Image
+            style={{flex: 1, width: null, height: null}}
+            source={require('./../static/title.png')}
+          />
+        </View>
+        <Input 
+          onChangeText={(email) => this.setState({ email })} 
+          name="email" 
+          placeholder="이메일" 
+          containerStyle={styles.input}
+          textContentType="username"></Input>
+        <Input 
+          onChangeText={(password) => this.setState({ password})}
+          containerStyle={styles.input}
+          name="password"
+          placeholder="패스워드"
+          textContentType="password"
+          secureTextEntry></Input>
+        <Button
+          title="로그인"
+          onPress={this.signInClick}
+          loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
+          titleStyle={{ fontWeight: "700" }}
+          buttonStyle={{
+            backgroundColor: api.color.sd,
+            width: deviceWidth * 0.6,
+            height: 45,
+            borderColor: "transparent",
+            borderWidth: 0,
+            marginTop: 0,
+            marginBottom: 0,
+            margin: deviceWidth * 0.2,
+            borderRadius: 5
           }}
+          containerStyle={{ marginTop: 20 }}
         />
-        <Text>이미 아이디가 있으신가요?</Text>
-        <Button title="로그인하러가기"></Button>
       </SafeAreaView>
     );
   }
@@ -74,6 +112,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#33373B',
   },
+  input: {
+    width: deviceWidth * 0.7,
+    height: 45,
+    borderColor: "transparent",
+    borderWidth: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    margin: deviceWidth * 0.15,
+  }
 });
 
 export default AuthScreen;
