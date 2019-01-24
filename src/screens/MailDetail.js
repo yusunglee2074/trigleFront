@@ -138,10 +138,11 @@ class MailDetail extends Component {
     if (this.state.isLoading) return (<Text>로딩중</Text>)
     else { 
       return (
-        <SafeAreaView style={styles.container}>
-          <Divider style={{ marginRight: 20, marginLeft: 20, marginTop: 30, backgroundColor: 'grey' }} />
-          <View style={styles.content}>
+        <SafeAreaView style={{flex: 1}}>
+          <View style={styles.container}>
+            <View style={styles.content}>
               <ScrollView>
+                <Divider style={{ marginRight: 20, marginLeft: 20, marginBottom: 20, backgroundColor: 'grey' }} />
                 <Text style={styles.receiver}>
                   To. {this.state.mail.isOffline
                       ? this.state.mail.receiverAddressId.receiverId.nickname
@@ -157,71 +158,72 @@ class MailDetail extends Component {
                   <Text style={styles.senderName}>From. {this.state.mail.senderId.nickname}</Text>
                   <Text style={styles.date}>{moment(this.state.mail.createdAt).fromNow()}</Text>
                 </TouchableOpacity>
-              </ScrollView>
                 <Divider style={{ marginTop: 30, backgroundColor: 'grey' }} />
-              <ScrollView
-                style={{ marginTop: 20 }}
-              >
-                {
-                  this.state.mail.comments.map((item, i) => { 
-                    return (
-                      <View 
-                        style={{ flexDirection: 'row', marginBottom: 6 }}
-                        key={i}>
-                        <TouchableOpacity
-                          style={{ flex: 3 }}
-                          onPress={() => {this.navigate(`profileDetail`, { userId: item.userId.id})}}
-                        >
-                          <Text style={{ fontWeight: 'bold' }}>{item.userId.nickname}</Text>
-                        </TouchableOpacity>
-                        <View
-                          style={{ flex: 8 }}
-                        >
-                          <Text style={{ fontWeight: '200' }}>{item.content}</Text>
-                        </View>
-                        <View
-                          style={{ flex: 3 }}
-                        >
-                          <Text style={{ fontWeight: '100' }}>{moment(item.createdAt).fromNow()}</Text>
-                        </View>
-                      </View>
-                    );
-                  })
-                }
-
-              </ScrollView>
-              <View style={{ flexDirection: 'row' }}>
                 <View
-                  style={{ flex:6 }}
+                  style={{ marginTop: 20 }}
                 >
-                  <Input
-                    placeholder='댓글'
-                    onChangeText={(comment) => this.setState({ comment})}
-                    value={this.state.comment}
-                  ></Input>
+                  {
+                    this.state.mail.comments.map((item, i) => { 
+                      return (
+                        <View 
+                          style={{ flexDirection: 'row', marginBottom: 6 }}
+                          key={i}>
+                          <TouchableOpacity
+                            style={{ flex: 3 }}
+                            onPress={() => {this.navigate(`profileDetail`, { userId: item.userId.id})}}
+                          >
+                            <Text style={{ fontWeight: 'bold' }}>{item.userId.nickname}</Text>
+                          </TouchableOpacity>
+                          <View
+                            style={{ flex: 8 }}
+                          >
+                            <Text style={{ fontWeight: '200' }}>{item.content}</Text>
+                          </View>
+                          <View
+                            style={{ flex: 3 }}
+                          >
+                            <Text style={{ fontWeight: '100' }}>{moment(item.createdAt).fromNow()}</Text>
+                          </View>
+                        </View>
+                      );
+                    })
+                  }
+
                 </View>
-                <Icon
+              </ScrollView>
+            </View>
+          </View>
+          <View style={{ flexDirection: 'row', margin: 20 }}>
+            <View
+              style={{ flex:6 }}
+            >
+              <Input
+                placeholder='댓글'
+                onChangeText={(comment) => this.setState({ comment})}
+                value={this.state.comment}
+              ></Input>
+            </View>
+            <Icon
+              containerStyle={{ marginTop: 10, flex: 1 }}
+              onPress={() => this.commentSave()}
+              type='simple-line-icon'
+              name='speech' />
+            { this.state.liked 
+                ? (<Icon
                   containerStyle={{ marginTop: 10, flex: 1 }}
-                  onPress={() => this.commentSave()}
+                  onPress={() => this.likeTogle()}
+                  type='font-awesome'
+                  color='#f50'
+                  name='heart' />)
+                : (<Icon
+                  containerStyle={{ marginTop: 10, flex: 1 }}
+                  onPress={() => this.likeTogle()}
                   type='simple-line-icon'
-                  name='speech' />
-                { this.state.liked 
-                    ? (<Icon
-                      containerStyle={{ marginTop: 10, flex: 1 }}
-                      onPress={() => this.likeTogle()}
-                      type='font-awesome'
-                      color='#f50'
-                      name='heart' />)
-                    : (<Icon
-                      containerStyle={{ marginTop: 10, flex: 1 }}
-                      onPress={() => this.likeTogle()}
-                      type='simple-line-icon'
-                      name='heart' />)
-                }
-              </View>
+                  name='heart' />)
+            }
           </View>
         </SafeAreaView>
-      );
+          );
     }
   }
 }
