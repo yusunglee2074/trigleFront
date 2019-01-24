@@ -32,6 +32,8 @@ import ContactScreen from './screens/Tab4MyInfo/Contact';
 import AboutTrigleScreen from './screens/Tab4MyInfo/AboutTrigle';
 import NewAddressScreen from './screens/Tab4MyInfo/NewAddress';
 
+import api from './api';
+
 
 const AuthStackNavigation = createStackNavigator({
   signUp: { screen: SignUpScreen, navigationOptions: { header: null } },
@@ -97,8 +99,10 @@ const MainBottomNavigation = createBottomTabNavigator({
 }, {
   initialRouteName: 'main',
   tabBarOptions: {
+    activeBackgroundColor: api.color.pl,
+    inactiveBackgroundColor: api.color.pl,
     activeTintColor: 'black',
-    inactiveTintColor: 'gray',
+    inactiveTintColor: api.color.primaryDarkColor,
     showLabel: false
   },
   navigationOptions: ({ navigation }) => ({
