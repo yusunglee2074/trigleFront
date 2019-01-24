@@ -80,5 +80,15 @@ const getUser = (userId, moreInfo = []) => {
   query += `}}`
   return get(query);
 }
+const color = {
+  p: "#d7ccc8",
+  pl: "#fffffb",
+  pd: "#a69b97",
+  s: "#5c6bc0",
+  sl: "#8e99f3",
+  sd: "#26418f",
+  pt: "#000000",
+  st: "#ffffff",
+}
 
-export default { setReceiver, getReceiver, getUser, updateUser, post, get, getStorageUser, setStorageUser };
+export default { color, setReceiver, getReceiver, getUser, updateUser, post, get, getStorageUser, setStorageUser };
