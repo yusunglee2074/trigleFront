@@ -31,11 +31,12 @@ class WriteScreen extends Component {
 
   _add = () => {
     let st = this.state;
+    let content = st.contentText.replace(/\n/g, "\\n");
     let query = `mutation {
       createMail(
         sender: "${st.user.nickname}",
         senderId: "${st.user.id}",
-        content: "${st.contentText}",
+        content: "${content}",
         isOffline: false,
       ) {
         id

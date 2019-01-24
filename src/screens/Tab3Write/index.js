@@ -82,12 +82,13 @@ class Tab3Write extends Component {
         tempQuery = `receiverId: "${st.receiver[i].id}",`;
       }
 
+      let content = st.contentText.replace(/\n/g, "\\n");
       let query = `mutation {
         createMail(
           ${tempQuery}
           sender: "${st.senderName}",
           senderId: "${st.user.id}",
-          content: "${st.contentText}",
+          content: "${content}",
           price: ${price},
           isOffline: true,
           isNormalPost: ${st.isNormalPost},
