@@ -210,7 +210,7 @@ class MailDetail extends Component {
                       containerStyle={{ marginTop: 10, flex: 1 }}
                       onPress={() => this.likeTogle()}
                       type='font-awesome'
-                      color='pink'
+                      color='#f50'
                       name='heart' />)
                     : (<Icon
                       containerStyle={{ marginTop: 10, flex: 1 }}
