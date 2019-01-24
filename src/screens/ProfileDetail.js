@@ -23,7 +23,6 @@ class ProfileDetail extends Component {
     return {
       title: navigation.getParam('title'),
       headerStyle: {
-        backgroundColor: 'red',
         elevation: 0,
         shadowOpacity: 0,
         borderBottomWidth: 0,
@@ -178,7 +177,7 @@ class ProfileDetail extends Component {
       return (
         <SafeAreaView style={styles.container}>
           <ScrollView>
-            <View style={{ backgroundColor: 'grey', height: 65 }}>
+            <View style={{ backgroundColor: 'rgb(130, 110, 50)', height: 65 }}>
             </View>
             <View style={{ marginTop: 100, padding: 20 }}>
               <Text style={{ fontSize: 26, marginBottom: 6 }}>{this.state.profileUser.nickname}</Text>
@@ -226,7 +225,7 @@ class ProfileDetail extends Component {
               style={{ position:'absolute', left: 15, top: 0 }}>
               <Avatar
                 size="xlarge"
-                containerStyle={{ borderWidth: 3, borderColor: 'white', backgroundColor: "white" }}
+                containerStyle={{ borderWidth: 3, borderColor: 'rgb(130,110,50)', backgroundColor: "white" }}
                 source={{uri: this.state.profileUser.profileImage ? this.state.profileUser.profileImage.url : ''}}
                 onPress={() => console.log("Works!")}
                 activeOpacity={0.7}
