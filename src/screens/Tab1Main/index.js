@@ -94,13 +94,19 @@ class Tab1MainScreen extends Component {
                   shadowOffset: {width: 0, height: 13}, 
                   shadowOpacity: 0.3,
                   shadowRadius: 6,
+                  display: 'flex',
+                  flexDirection: 'column',
 
                   // android (Android +5.0)
                   elevation: 3,
                 }}>
-                <Text>{item.content}</Text>
-                <Text>{item.senderId.nickname}</Text>
-                <Text>{moment(item.createdAt).fromNow()}</Text>
+                <View style={styles.content}>
+                  <Text>{item.content.length < 50 ? item.content : item.content.slice(0, 50) + ' ...'}</Text>
+                </View>
+                <View style={styles.bottom}>
+                  <Text style={{ fontWeight: "bold", fontSize: 17 }}>{item.senderId.nickname}</Text>
+                  <Text style={{ fontWeight: "100", fontSize: 11 }}>{moment(item.createdAt).fromNow()}</Text>
+                </View>
               </TouchableOpacity>
             );
           }}
@@ -117,9 +123,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    flex: 1,
-    backgroundColor: '#33373B',
+    marginTop: 20,
+    flexGrow: 1,
   },
+  bottom: {
+    alignSelf: 'flex-end',
+  }
 });
 
 export default Tab1MainScreen;
