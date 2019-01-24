@@ -44,7 +44,7 @@ const AuthStackNavigation = createStackNavigator({
 const MainScreenStackNavigation = createStackNavigator({
   entry: { screen: Tab1MainScreen, navigationOptions: { title: '트리글' } },
   writeOnlineMail: { screen: Tab1WriteScreen, navigationOptions: { title: '메인화면 글쓰기' } },
-  profileDetail: { screen: ProfileDetailScreen },
+  profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
 }, {
   initialRouteName: 'entry',
