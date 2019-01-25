@@ -31,6 +31,7 @@ import ReceiveMailScreen from './screens/Tab4MyInfo/ReceiveMail';
 import ContactScreen from './screens/Tab4MyInfo/Contact';
 import AboutTrigleScreen from './screens/Tab4MyInfo/AboutTrigle';
 import NewAddressScreen from './screens/Tab4MyInfo/NewAddress';
+import UpdateProfileScreen from './screens/Tab4MyInfo/UpdateProfile';
 
 import api from './api';
 
@@ -87,6 +88,7 @@ const MyInfoStackNavigation = createStackNavigator({
   profileDetail: { screen: ProfileDetailScreen, navigationOptions: { title: '프로필' } },
   mailDetail: { screen: MailDetailScreen, navigationOptions: { title: '편지 내용' } },
   newAddress: { screen: NewAddressScreen, navigationOptions: { title: '주소 추가' } },
+  updateProfile: { screen: UpdateProfileScreen, navigationOptions: { title: '프로필 수정' } },
 }, {
   initialRouteName: 'entry',
 })
