@@ -159,12 +159,12 @@ class SetKeyword extends Component {
               <Button
                 key={index}
                 title={item.keyword.replace('#', '# ')}
-                titleStyle={{ color: 'black', fontWeight: '100', fontSize: 15 }}
+                titleStyle={{ color: item.checked ? 'white' : 'black', fontWeight: '100', fontSize: 15 }}
                 onPress={() => this.clickKeywords(item, index)}
                 buttonStyle={{
                   elevation: 0,
                   height: 40,
-                  backgroundColor: item.checked ? "red" : "transparent",
+                  backgroundColor: item.checked ? api.color.sd : "transparent",
                   borderColor: api.color.s,
                   borderWidth: 2,
                   borderRadius: 5

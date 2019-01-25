@@ -59,7 +59,7 @@ class ProfileDetail extends Component {
           tempUser.address2 = address.address2;
           tempUser.id = address.id;
           tempUser.detailAddress = address.detailAddress;
-
+          tempUser.mailRatio = '해당없음';
           this.setState({ notJoinUser: true, address: true, profileUser: tempUser, isLoading: false });
         })
         .catch(e => console.log(e));
@@ -71,7 +71,7 @@ class ProfileDetail extends Component {
         })
         .then(r => {
           let currentProfileUserId = this.props.navigation.state.params.userId;
-          return api.getUser(currentProfileUserId, ['address1', 'profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday']);
+          return api.getUser(currentProfileUserId, ['address1', 'profileImage{ id url }', 'updatedAt', 'keywords{ keywordId { keyword } }', 'birthday', 'mailRatio']);
         })
         .then(r => {
           let user = r.data.data.user;
@@ -141,8 +141,24 @@ class ProfileDetail extends Component {
 
   render () {
     if (!this.state.isLoading) {
-      let addressButton = <Button title="주소록에 추가" onPress={() => this.toggleAddress(true)}></Button>;
-      let alreadyAdded = <Button title="이미 추가된 친구" onPress={() => this.toggleAddress(false)}></Button>;
+      let addressButton = <Button 
+        title="주소록 추가" 
+        buttonStyle={{
+          elevation: 0,
+          marginTop: 10,
+          width: 150,
+          backgroundColor: api.color.s,
+        }}
+        onPress={() => this.toggleAddress(true)}></Button>;
+      let alreadyAdded = <Button 
+        title="이미 추가된 친구" 
+        buttonStyle={{
+          elevation: 0,
+          marginTop: 10,
+          width: 150,
+          backgroundColor: api.color.sd,
+        }}
+        onPress={() => this.toggleAddress(false)}></Button>;
       let keywords = [];
       for (let i = 0; i < this.state.profileUser.keywords.length; i++) {
         keywords.push(<Button
@@ -150,10 +166,11 @@ class ProfileDetail extends Component {
           title={this.state.profileUser.keywords[i].keywordId.keyword}
           titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
           buttonStyle={{
-            height: 30,
+            height: 40,
             backgroundColor: "transparent",
-            borderColor: "rgba(92, 99,216, 1)",
+            elevation: 0,
             alignSelf: 'flex-start',
+            borderColor: api.color.s,
             borderWidth: 2,
             borderRadius: 5
           }}
@@ -163,8 +180,9 @@ class ProfileDetail extends Component {
       let sendMail;
       if (this.state.me.id !== this.state.profileUser.id) {
         sendMail = (<View>
-          <Text>주소록삭제 + 차단</Text>
-          <Button title="편지쓰기" onPress={() => this.goWrite()}></Button>
+          <TouchableOpacity
+            onPress={() => alert('업데이트 예정')}
+          style={{ margin: 20 }}><Text>주소록삭제 + 차단</Text></TouchableOpacity> 
         </View>);
       } else {
         addressButton = void 0;
@@ -172,15 +190,26 @@ class ProfileDetail extends Component {
       return (
         <SafeAreaView style={styles.container}>
           <ScrollView>
-            <View style={{ backgroundColor: '#f50', height: 65 }}>
+            <View style={{ backgroundColor: api.color.s, height: 65 }}>
             </View>
             <View style={{ marginTop: 100, padding: 20 }}>
-              <Text style={{ fontSize: 26, marginBottom: 6 }}>{this.state.profileUser.nickname}</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ fontSize: 26, marginBottom: 6 }}>{this.state.profileUser.nickname}</Text>
+                <Button 
+                  title="편지쓰기" 
+                  buttonStyle={{
+                    height: 40,
+                    elevation: 0,
+                    alignSelf: 'flex-start',
+                    backgroundColor: api.color.s,
+                  }}
+                  onPress={() => this.goWrite()}></Button>
+              </View>
               {this.state.notJoinUser
                   ? null
                   : (<View style={{ flexDirection: 'row'}}>
                     <Icon name="cake" type="entypo" size={14}></Icon>
-                    <Text> 생일: {this.state.profileUser.birthday ? this.state.profileUser.birthday : "공개안함"}</Text>
+                    <Text> 생일: {this.state.profileUser.birthday ? this.state.profileUser.birthday : "입력안함"}</Text>
                   </View>) 
               }
               {this.state.notJoinUser
@@ -200,14 +229,16 @@ class ProfileDetail extends Component {
                   ? null 
                   : (<View style={{ flexDirection: 'row'}}>
                 <Icon name="documents" type="entypo" size={14}></Icon>
-                <Text> 답장률: 70%</Text>
+                <Text> 보낸/받은편지 비율: { this.state.profileUser.mailRatio === 0 ? '정보부족' : this.state.profileUser.mailRatio + '%' }</Text>
               </View>) 
               }
               <View style={{ flexDirection: 'row'}}>
                 <Icon name="back-in-time" type="entypo" size={14}></Icon>
                 <Text> 마지막 접속: {this.state.profileUser.updatedAt}</Text>
               </View>
-              {this.state.address ? alreadyAdded : addressButton}
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                {this.state.address ? alreadyAdded : addressButton}
+              </View>
               <View style={styles.divider}/>
               <View>
                 { this.state.notJoinUser ? <Text></Text> : <Text>관심 키워드</Text> }
@@ -220,7 +251,7 @@ class ProfileDetail extends Component {
               style={{ position:'absolute', left: 15, top: 0 }}>
               <Avatar
                 size="xlarge"
-                containerStyle={{ borderWidth: 3, borderColor: '#f50', backgroundColor: "white" }}
+                containerStyle={{ borderWidth: 3, borderColor: api.color.sd, backgroundColor: "white" }}
                 source={{uri: this.state.profileUser.profileImage ? this.state.profileUser.profileImage.url : ''}}
                 onPress={() => console.log("Works!")}
                 activeOpacity={0.7}
