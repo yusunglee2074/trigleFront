@@ -8,7 +8,7 @@ axios.defaults.headers.get['Authorization'] = 'KakaoAK cc62ead48c2202c3e98c5d994
 
 import api from './../../api';
 
-class Address extends Component {
+class SetKeyword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -139,7 +139,7 @@ class Address extends Component {
             key={i}
             onPress={() => this.getAddress(this.state.searchAddress[i])}
           >
-            <Text>{this.state.searchAddress[i].address_name}</Text>
+            <Text style={styles.addressList}>{this.state.searchAddress[i].address_name}</Text>
           </TouchableOpacity>
         ));
       }
@@ -152,19 +152,20 @@ class Address extends Component {
         <ScrollView>
           <FlatList
             data = {this.state.defaultKeywords}
+            columnWrapperStyle={{flexGrow: 1, justifyContent: 'center'}}
             keyExtractor={(item, index) => index}
             numColumns={4}
             renderItem={({ item, index }) => (
               <Button
                 key={index}
-                title={item.keyword}
-                titleStyle={{ color: 'black', fontWeight: 'normal', fontSize: 13 }}
+                title={item.keyword.replace('#', '# ')}
+                titleStyle={{ color: 'black', fontWeight: '100', fontSize: 15 }}
                 onPress={() => this.clickKeywords(item, index)}
                 buttonStyle={{
+                  elevation: 0,
                   height: 40,
                   backgroundColor: item.checked ? "red" : "transparent",
-                  borderColor: "rgba(92, 99,216, 1)",
-                  alignSelf: 'flex-start',
+                  borderColor: api.color.s,
                   borderWidth: 2,
                   borderRadius: 5
                 }}
@@ -172,30 +173,35 @@ class Address extends Component {
               />
             )}
           />
-          <SafeAreaView style={styles.container}>
-            <Text>아래 주소는 다른유저에게 공개되지 않습니다.</Text>
+          <View style={styles.address}>
+            <Text sytle={{ color: api.color.p, fontWeight: "300" }}>주소는 다른이에게 공개되지 않습니다.</Text>
             <Input
-              placeholder='주소명'
+              placeholder='도로명, 지번 주소'
               onChangeText={(searchWord) => this.setState({ searchWord })}
               leftIcon={
                 <Icon
-                  name='user'
-                  size={24}
-                  color='black'
+                  name='map'
+                  type='simple-line-icon'
+                  size={23}
+                  color={api.color.sd}
                 />
               }
             />
-            <Button title="주소검색" onPress={() => this.searchAddress()}></Button>
+            <Button
+              buttonStyle={{ marginTop: 3, elevation: 0, backgroundColor: api.color.s }} 
+              title="주소검색" 
+              onPress={() => this.searchAddress()}></Button>
             { addressList }
             <Input
-              placeholder='이름'
+              placeholder='닉네임'
               onChangeText={(nickname) => this.setState({ nickname })}
               value={this.state.nickname}
               leftIcon={
                 <Icon
-                  name='user'
-                  size={24}
-                  color='black'
+                  name='people'
+                  type='simple-line-icon'
+                  size={23}
+                  color={api.color.sd}
                 />
               }
             />
@@ -205,9 +211,10 @@ class Address extends Component {
               value={this.state.address1}
               leftIcon={
                 <Icon
-                  name='user'
-                  size={24}
-                  color='black'
+                  name='direction'
+                  type='simple-line-icon'
+                  size={23}
+                  color={api.color.sd}
                 />
               }
             />
@@ -217,9 +224,10 @@ class Address extends Component {
               value={this.state.address2}
               leftIcon={
                 <Icon
-                  name='user'
-                  size={24}
-                  color='black'
+                  name='direction'
+                  type='simple-line-icon'
+                  size={23}
+                  color={api.color.sd}
                 />
               }
             />
@@ -229,15 +237,19 @@ class Address extends Component {
               value={this.state.detailAddress}
               leftIcon={
                 <Icon
-                  name='user'
-                  size={24}
-                  color='black'
+                  name='directions'
+                  type='simple-line-icon'
+                  size={23}
+                  color={api.color.sd}
                 />
               }
             />
-          </SafeAreaView>
+            <Button 
+              buttonStyle={{ marginTop: 3, elevation: 0, backgroundColor: api.color.s }} 
+              title="저장" 
+              onPress={() => {this.saveKeyword()}}></Button>
+          </View>
         </ScrollView>
-        <Button title="저장" onPress={() => {this.saveKeyword()}}></Button>
       </SafeAreaView>
     );
   }
@@ -247,7 +259,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  address: {
+    padding: 20,
+  },
+  addressList: {
+    fontSize: 14,
+    padding: 5,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: api.color.sd
+  },
   divider: { width: '85%', margin: 4, borderBottomColor: 'red', borderBottomWidth: 1 }
 });
 
-export default Address;
+export default SetKeyword;
