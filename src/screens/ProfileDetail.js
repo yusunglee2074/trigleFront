@@ -139,6 +139,14 @@ class ProfileDetail extends Component {
       .catch(e => console.log(e))
   }
 
+  changeProfileImage = () => {
+    // TODO: 프로필 이미지 크롭하고 업로드
+  }
+
+  updateProfile = () => {
+    this.props.navigation.navigate('updateProfile');
+  }
+
   render () {
     if (!this.state.isLoading) {
       let addressButton = <Button 
@@ -195,15 +203,26 @@ class ProfileDetail extends Component {
             <View style={{ marginTop: 100, padding: 20 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={{ fontSize: 26, marginBottom: 6 }}>{this.state.profileUser.nickname}</Text>
-                <Button 
-                  title="편지쓰기" 
-                  buttonStyle={{
-                    height: 40,
-                    elevation: 0,
-                    alignSelf: 'flex-start',
-                    backgroundColor: api.color.s,
-                  }}
-                  onPress={() => this.goWrite()}></Button>
+                { this.state.profileUser.id !== this.state.me.id 
+                    ? (<Button 
+                      title="편지쓰기" 
+                      buttonStyle={{
+                        height: 40,
+                        elevation: 0,
+                        alignSelf: 'flex-start',
+                        backgroundColor: api.color.s,
+                      }}
+                      onPress={() => this.goWrite()}></Button>)
+                    : (<Button 
+                      title="정보수정" 
+                      buttonStyle={{
+                        height: 40,
+                        elevation: 0,
+                        alignSelf: 'flex-start',
+                        backgroundColor: api.color.s,
+                      }}
+                      onPress={() => this.updateProfile()}></Button>)
+                }
               </View>
               {this.state.notJoinUser
                   ? null
@@ -218,19 +237,19 @@ class ProfileDetail extends Component {
                     <Text> 지역: {this.state.profileUser.address1
                         + ' ' + this.state.profileUser.address2
                         + ' ' + this.state.profileUser.detailAddress }</Text>
-                  </View>)
+                    </View>)
                   : (<View style={{ flexDirection: 'row'}}>
                     <Icon name="location-pin" type="entypo" size={14}></Icon>
                     <Text> 지역: {this.state.profileUser.address1 ? this.state.profileUser.address1 : "공개안함"}</Text>
                   </View>)
               }
-              
+
               {this.state.notJoinUser
                   ? null 
                   : (<View style={{ flexDirection: 'row'}}>
-                <Icon name="documents" type="entypo" size={14}></Icon>
-                <Text> 보낸/받은편지 비율: { this.state.profileUser.mailRatio === 0 ? '정보부족' : this.state.profileUser.mailRatio + '%' }</Text>
-              </View>) 
+                    <Icon name="documents" type="entypo" size={14}></Icon>
+                    <Text> 보낸/받은편지 비율: { this.state.profileUser.mailRatio === 0 ? '정보부족' : this.state.profileUser.mailRatio + '%' }</Text>
+                  </View>) 
               }
               <View style={{ flexDirection: 'row'}}>
                 <Icon name="back-in-time" type="entypo" size={14}></Icon>
@@ -253,7 +272,9 @@ class ProfileDetail extends Component {
                 size="xlarge"
                 containerStyle={{ borderWidth: 3, borderColor: api.color.sd, backgroundColor: "white" }}
                 source={{uri: this.state.profileUser.profileImage ? this.state.profileUser.profileImage.url : ''}}
-                onPress={() => console.log("Works!")}
+                onPress={() => { 
+                  if (this.state.me.id === this.state.profileUser.id) this.changeProfileImage()
+                } }
                 activeOpacity={0.7}
               />
             </View>
