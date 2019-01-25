@@ -25,7 +25,7 @@ class ProfileDetail extends Component {
     }
   }
 
-  componentWillMount() {
+  getUser = () => {
     if (!this.props.navigation.state.params.userId) {
       // 유저 아이디가 없는 그저 주소만 있는 유저를 위해
       api.getStorageUser(AsyncStorage)
@@ -94,8 +94,14 @@ class ProfileDetail extends Component {
     }
   }
 
-  componentDidAppear() {
-    this.setState({ text: 'power' });
+  componentWillMount() {
+    this.getUser();
+    const didBlurSubscription = this.props.navigation.addListener(
+      'didFocus',
+      payload => {
+        this.getUser();
+      }
+    );
   }
 
   toggleAddress = (add) => {
@@ -144,7 +150,7 @@ class ProfileDetail extends Component {
   }
 
   updateProfile = () => {
-    this.props.navigation.navigate('updateProfile');
+    this.props.navigation.navigate('updateProfile', { reRender: () => this.getUser() });
   }
 
   render () {

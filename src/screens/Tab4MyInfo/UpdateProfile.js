@@ -151,7 +151,7 @@ class SetKeyword extends Component {
         return 1;
       })
       .then(r => {
-        this.props.navigation.goBack(null)
+        this.props.navigation.goBack(null);
       })
       .catch(e => {
         console.log(e)
