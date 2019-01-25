@@ -24,21 +24,23 @@ class Tab3Write extends Component {
   static navigationOptions =  ({ navigation }) => {
     return {
       headerRight: (
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ marginRight: 14, flexDirection: 'row' }}>
           <Icon
             name='paperclip'
             type='font-awesome'
-            color='#f50'
+            color={api.color.s}
+            containerStyle={{ marginRight: 10 }}
             onPress={navigation.getParam('addImage')} />
           <Icon
             name='film'
             type='font-awesome'
-            color='#f50'
+            color={api.color.s}
+            containerStyle={{ marginRight: 10 }}
             onPress={navigation.getParam('addVideo')} />
           <Icon
             name='send-o'
             type='font-awesome'
-            color='#f50'
+            color={api.color.s}
             onPress={navigation.getParam('post')} />
         </View>
         )
