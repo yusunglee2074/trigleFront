@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
   Alert, AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity
 } from 'react-native';
-import { Input, Icon, Button } from 'react-native-elements';
+import { Divider, Input, Icon, Button } from 'react-native-elements';
 import api from './../../api';
 import axios from 'axios';
 axios.defaults.headers.get['Authorization'] = 'KakaoAK cc62ead48c2202c3e98c5d994d4bc7dd'
@@ -105,7 +105,7 @@ class AboutTrigle extends Component {
             key={i}
             onPress={() => this.getAddress(this.state.searchAddress[i])}
           >
-            <Text>{this.state.searchAddress[i].address_name}</Text>
+            <Text style={styles.addressList}>{this.state.searchAddress[i].address_name}</Text>
           </TouchableOpacity>
         ));
       }
@@ -115,91 +115,117 @@ class AboutTrigle extends Component {
     }
     return (
       <SafeAreaView style={styles.container}>
-      <Input
-        placeholder='주소명'
-        onChangeText={(searchWord) => this.setState({ searchWord })}
-        leftIcon={
-          <Icon
-            name='user'
-            size={24}
-            color='black'
+        <View style={styles.container}>
+          <Input
+            placeholder='도로명, 지번 주소'
+            onChangeText={(searchWord) => this.setState({ searchWord })}
+            leftIcon={
+              <Icon
+                name='map'
+                type='simple-line-icon'
+                size={23}
+                color={api.color.sd}
+              />
+            }
           />
-        }
-      />
-        <Button title="주소검색" onPress={() => this.searchAddress()}></Button>
-        { addressList }
-        <Input
-          placeholder='이름'
-          onChangeText={(nickname) => this.setState({ nickname })}
-          value={this.state.nickname}
-          leftIcon={
-            <Icon
-              name='user'
-              size={24}
-              color='black'
+          <Button
+            buttonStyle={{ marginTop: 3, elevation: 0, backgroundColor: api.color.s }} 
+            title="주소검색" 
+            onPress={() => this.searchAddress()}></Button>
+          { addressList }
+          <Input
+            placeholder='닉네임'
+            onChangeText={(nickname) => this.setState({ nickname })}
+            value={this.state.nickname}
+            leftIcon={
+              <Icon
+                name='people'
+                type='simple-line-icon'
+                size={23}
+                color={api.color.sd}
+              />
+            }
+          />
+          <Input
+            placeholder='주소1'
+            onChangeText={(address1) => this.setState({ address1 })}
+            value={this.state.address1}
+            leftIcon={
+              <Icon
+                name='direction'
+                type='simple-line-icon'
+                size={23}
+                color={api.color.sd}
+              />
+            }
+          />
+          <Input
+            placeholder='주소2'
+            onChangeText={(address2) => this.setState({ address2 })}
+            value={this.state.address2}
+            leftIcon={
+              <Icon
+                name='direction'
+                type='simple-line-icon'
+                size={23}
+                color={api.color.sd}
+              />
+            }
+          />
+          <Input
+            placeholder='상세주소'
+            onChangeText={(detailAddress) => this.setState({ detailAddress })}
+            value={this.state.detailAddress}
+            leftIcon={
+              <Icon
+                name='directions'
+                type='simple-line-icon'
+                size={23}
+                color={api.color.sd}
+              />
+            }
+          />
+          <Button 
+            buttonStyle={{ marginTop: 3, elevation: 0, backgroundColor: api.color.s }} 
+            title="저장" 
+            onPress={() => {this.saveAddress()}}></Button>
+          <Divider style={{ margin: 30, backgroundColor: api.color.sd }} />
+          <View style={{ marginTop: 0 }}>
+            <Text>문자로 상대방에게 주소를 요청할 수 있습니다.</Text>
+            <Input
+              onChangeText={(phone) => this.setState({ phone })}
+              value={this.state.phone}
+              placeholder='휴대폰번호'
+              leftIcon={
+                <Icon
+                  name='phone'
+                  type='simple-line-icon'
+                  size={23}
+                  color={api.color.sd}
+                />
+              }
             />
-          }
-        />
-        <Input
-          placeholder='주소1'
-          onChangeText={(address1) => this.setState({ address1 })}
-          value={this.state.address1}
-          leftIcon={
-            <Icon
-              name='user'
-              size={24}
-              color='black'
-            />
-          }
-        />
-        <Input
-          placeholder='주소2'
-          onChangeText={(address2) => this.setState({ address2 })}
-          value={this.state.address2}
-          leftIcon={
-            <Icon
-              name='user'
-              size={24}
-              color='black'
-            />
-          }
-        />
-        <Input
-          placeholder='상세주소'
-          onChangeText={(detailAddress) => this.setState({ detailAddress })}
-          value={this.state.detailAddress}
-          leftIcon={
-            <Icon
-              name='user'
-              size={24}
-              color='black'
-            />
-          }
-        />
-        <Button title="저장" onPress={() => this.saveAddress()}></Button>
-        <Text>휴대폰번호로 상대방에게 주소를 요청할 수 있습니다.</Text>
-        <Text>상대방이 웹사이트에 접속 후 주소를 입력할 시 완료됩니다.</Text>
-        <Input
-          onChangeText={(phone) => this.setState({ phone })}
-          value={this.state.phone}
-          placeholder='휴대폰번호'
-          leftIcon={
-            <Icon
-              name='user'
-              size={24}
-              color='black'
-            />
-          }
-        />
-        <Button title="요청" onPress={() => this.requestSMS()}></Button>
-      </SafeAreaView>
-    );
+            <Button 
+              buttonStyle={{ marginTop: 9, elevation: 0, backgroundColor: api.color.s }} 
+              title="요청" onPress={() => this.requestSMS()}></Button>
+          </View>
+        </View>
+        </SafeAreaView>
+        );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20
+  },
+  addressList: {
+    fontSize: 14,
+    padding: 5,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: api.color.sd
   },
 });
 
